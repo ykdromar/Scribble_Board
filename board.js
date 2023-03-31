@@ -2,11 +2,14 @@ const canvas = document.querySelector("canvas"),
   toolButtons = document.querySelectorAll(".tool"),
   colorButtons = document.querySelectorAll(".color"),
   colorPicker = document.querySelector("#colorPicker"),
+
+  clearCanvas = document.querySelector(".clear-canvas"),
+
   fillColor = document.querySelector("#fillColor"),
   context = canvas.getContext("2d");
 
 console.log(toolButtons);
-console.log(fillColor);
+console.log(fillColor); 
 
 let prevMouseX,
   prevMouseY,
@@ -100,6 +103,11 @@ colorPicker.addEventListener("change", () => {
   colorPicker.parentElement.style.background = colorPicker.value;
   colorPicker.parentElement.click();
 });
+
+clearCanvas.addEventListener("click", () => {
+  context.clearRect(0 , 0, canvas.width, canvas.height);
+  setCanvasBackground();
+})
 
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
