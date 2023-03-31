@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Scribble Board</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div id="board">
+        <canvas></canvas>
+      </div>
+      <div id="toolPalette">
+        <ul id="pens" class="list">
+          <li class="tool activeTool" id="pencil">
+            <img src="assets/images/pencil.svg" />
+          </li>
+          <li class="tool" id="eraser">
+            <img src="assets/images/eraser.svg" />
+          </li>
+        </ul>
+        <ul id="colors" class="list">
+          <li id="black" class="color activeColor"></li>
+          <li id="blue" class="color"></li>
+          <li id="red" class="color"></li>
+          <li id="green" class="color"></li>
+  
+           <li id="customColor" class="color">
+            <input
+              type="color"
+              id="colorPicker"
+              class="color"
+              value="#FCFF00"
+            ></input>
+          </li> 
+        </ul>
+        <ul id="shapes" class="list"></ul>
+        <ul id="otherTools" class="list"></ul> 
+      </div>
+    <script src="./board.js"></script>
+  </body>
+</html>
