@@ -21,6 +21,7 @@ body {
   height: 100%;
 }
 #toolPalette {
+  background-color: white;
   z-index: 1;
   height: 60px;
   width: 50%;

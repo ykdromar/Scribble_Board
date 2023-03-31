@@ -1,10 +1,12 @@
 const canvas = document.querySelector("canvas"),
   toolButtons = document.querySelectorAll(".tool"),
   colorButtons = document.querySelectorAll(".color"),
-  colorPicker = document.querySelector("#colorPicker");
-context = canvas.getContext("2d");
+  colorPicker = document.querySelector("#colorPicker"),
+  fillColor = document.querySelector("#fillColor"),
+  context = canvas.getContext("2d");
+
 console.log(toolButtons);
-console.log(colorButtons);
+console.log(fillColor);
 
 let prevMouseX,
   prevMouseY,
@@ -26,6 +28,32 @@ window.addEventListener("load", () => {
   setCanvasBackground();
 });
 
+const drawRect = (e) => {
+  if (!fillColor.checked) {
+    return context.strokeRect(
+      e.offsetX,
+      e.offsetY,
+      prevMouseX - e.offsetX,
+      prevMouseY - e.offsetY
+    );
+  }
+  context.fillRect(
+    e.offsetX,
+    e.offsetY,
+    prevMouseX - e.offsetX,
+    prevMouseY - e.offsetY
+  );
+};
+
+const drawCircle = (e) => {
+  context.beginPath();
+  let radius = Math.sqrt(
+    Math.pow(prevMouseX - e.offsetX, 2) + Math.pow(prevMouseY - e.offsetY, 2)
+  );
+  context.arc(prevMouseX, prevMouseY, radius, 0, 2 * Math.PI);
+  fillColor.checked ? context.fill() : context.stroke();
+};
+
 const startDraw = (e) => {
   isDrawing = true;
   prevMouseX = e.offsetX;
@@ -44,6 +72,10 @@ const drawing = (e) => {
     context.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
     context.lineTo(e.offsetX, e.offsetY);
     context.stroke();
+  } else if (selectedTool === "rectangle") {
+    drawRect(e);
+  } else if (selectedTool === "circle") {
+    drawCircle(e);
   }
 };
 
