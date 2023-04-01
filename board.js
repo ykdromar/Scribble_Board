@@ -54,11 +54,21 @@ const drawCircle = (e) => {
   fillColor.checked ? context.fill() : context.stroke();
 };
 
+
 const drawLine = (e) => {
   context.beginPath(); 
   context.moveTo(prevMouseX, prevMouseY); 
   context.lineTo(e.offsetX, e.offsetY);
   context.stroke();
+}
+
+const drawTriangle = (e) => {
+  context.beginPath();
+  context.moveTo(prevMouseX, prevMouseY);
+  context.lineTo(e.offsetX, e.offsetY);
+  context.lineTo(prevMouseX * 2 - e.offsetX, e.offsetY);
+  context.closePath();
+  fillColor.checked ? context.fill() : context.stroke();
 }
 
 const startDraw = (e) => {
@@ -83,8 +93,13 @@ const drawing = (e) => {
     drawRect(e);
   } else if (selectedTool === "circle") {
     drawCircle(e);
+
   } else if (selectedTool === "line") {
     drawLine(e);
+
+  } else if (selectedTool === "triangle") {
+    drawTriangle(e);
+
   }
 };
 
@@ -112,4 +127,4 @@ colorPicker.addEventListener("change", () => {
 
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
-canvas.addEventListener("mouseup", () => (isDrawing = false));
+window.addEventListener("mouseup", () => (isDrawing = false));
