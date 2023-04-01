@@ -29,7 +29,6 @@ const setCanvasBackground = () => {
 const setCanvasBackgroundColor = () => {
   context.fillStyle = backgroundColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
-  
 };
 
 window.addEventListener("load", () => {
@@ -91,16 +90,11 @@ const startDraw = (e) => {
   snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
 };
 
-const eraserColor =(color) =>{
-  context.strokeStyle = color;
-}
-
 const drawing = (e) => {
   if (!isDrawing) return;
   context.putImageData(snapshot, 0, 0);
-
   if (selectedTool === "pencil" || selectedTool === "eraser" || selectedTool==="highlighter") {
-    context.strokeStyle = selectedTool === "eraser" ? eraserColor(canvasBackgroundColor.value) : selectedColor;
+    context.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
     context.lineWidth = selectedTool === "highlighter" ? 25 : pencilWidth;
     context.globalAlpha=  selectedTool === "highlighter" ? 0.6: 1;
     context.lineTo(e.offsetX, e.offsetY);
