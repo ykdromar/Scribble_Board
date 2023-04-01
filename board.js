@@ -54,6 +54,14 @@ const drawCircle = (e) => {
   fillColor.checked ? context.fill() : context.stroke();
 };
 
+
+const drawLine = (e) => {
+  context.beginPath(); 
+  context.moveTo(prevMouseX, prevMouseY); 
+  context.lineTo(e.offsetX, e.offsetY);
+  context.stroke();
+}
+
 const drawTriangle = (e) => {
   context.beginPath();
   context.moveTo(prevMouseX, prevMouseY);
@@ -62,7 +70,6 @@ const drawTriangle = (e) => {
   context.closePath();
   fillColor.checked ? context.fill() : context.stroke();
 }
-
 
 const startDraw = (e) => {
   isDrawing = true;
@@ -86,8 +93,13 @@ const drawing = (e) => {
     drawRect(e);
   } else if (selectedTool === "circle") {
     drawCircle(e);
+
+  } else if (selectedTool === "line") {
+    drawLine(e);
+
   } else if (selectedTool === "triangle") {
     drawTriangle(e);
+
   }
 };
 
