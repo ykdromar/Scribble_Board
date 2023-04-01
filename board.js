@@ -3,6 +3,7 @@ const canvas = document.querySelector("canvas"),
   colorButtons = document.querySelectorAll(".color"),
   colorPicker = document.querySelector("#colorPicker"),
   fillColor = document.querySelector("#fillColor"),
+  sizeSlider = document.querySelector("#size_slider"),
   context = canvas.getContext("2d");
 
 console.log(toolButtons);
@@ -96,10 +97,13 @@ colorButtons.forEach((button) => {
       .getPropertyValue("background-color");
   });
 });
+
 colorPicker.addEventListener("change", () => {
   colorPicker.parentElement.style.background = colorPicker.value;
   colorPicker.parentElement.click();
 });
+
+sizeSlider.addEventListener("change", () => pencilWidth = sizeSlider.value);
 
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
