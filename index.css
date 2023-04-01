@@ -8,6 +8,7 @@ body {
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
+  user-select: none;
 }
 
 #board {
@@ -24,15 +25,20 @@ body {
   background-color: white;
   z-index: 1;
   height: 60px;
-  width: 50%;
+  width: 90%;
   position: fixed;
-  top: 0px;
-  left: 25%;
+  top: -45px;
+  left: 5%;
   box-shadow: 0px 4px 7px 0px rgba(207, 207, 207, 1);
   border-radius: 5px 5px 30px 30px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  transition: 0.3s ease-in-out;
+}
+
+#toolPalette:hover {
+  transform: translateY(45px);
 }
 
 .list {
