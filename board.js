@@ -8,9 +8,6 @@ const canvas = document.querySelector("canvas"),
   sizeSlider = document.querySelector("#size_slider"),
   context = canvas.getContext("2d");
 
-console.log(toolButtons);
-console.log(fillColor);
-
 let prevMouseX,
   prevMouseY,
   snapshot,
@@ -87,16 +84,21 @@ const startDraw = (e) => {
   context.lineWidth = pencilWidth;
   context.strokeStyle = selectedColor;
   context.fillStyle = selectedColor;
+  context.globalAlpha = 1;
   snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
 };
 
 const drawing = (e) => {
   if (!isDrawing) return;
   context.putImageData(snapshot, 0, 0);
-  if (selectedTool === "pencil" || selectedTool === "eraser" || selectedTool==="highlighter") {
+  if (
+    selectedTool === "pencil" ||
+    selectedTool === "eraser" ||
+    selectedTool === "highlighter"
+  ) {
     context.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
     context.lineWidth = selectedTool === "highlighter" ? 25 : pencilWidth;
-    context.globalAlpha=  selectedTool === "highlighter" ? 0.6: 1;
+    context.globalAlpha = selectedTool === "highlighter" ? 0.6 : 1;
     context.lineTo(e.offsetX, e.offsetY);
     context.stroke();
   } else if (selectedTool === "rectangle") {
