@@ -13,17 +13,20 @@ body {
 #board {
   width: 100%;
   height: 100%;
-  background-color: black;
+  background-color: white;
   box-sizing: border-box;
 }
+
 #board canvas {
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
+  border: 1px solid black;
 }
+
 #toolPalette {
   background-color: white;
   z-index: 1;
-  height: 60px;
+  height: 250px;
   width: 50%;
   position: fixed;
   top: 0px;
@@ -54,8 +57,7 @@ body {
 }
 
 .activeTool {
-  filter: invert(78%) sepia(13%) saturate(1508%) hue-rotate(102deg)
-    brightness(107%) contrast(89%);
+  filter: invert(78%) sepia(13%) saturate(1508%) hue-rotate(102deg) brightness(107%) contrast(89%);
 }
 
 /* COLORS */
@@ -75,12 +77,15 @@ body {
 #black {
   background-color: black;
 }
+
 #blue {
   background-color: blue;
 }
+
 #red {
   background-color: red;
 }
+
 #green {
   background-color: green;
 }
