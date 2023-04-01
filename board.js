@@ -2,12 +2,17 @@ const canvas = document.querySelector("canvas"),
   toolButtons = document.querySelectorAll(".tool"),
   colorButtons = document.querySelectorAll(".color"),
   colorPicker = document.querySelector("#colorPicker"),
+
+  clearCanvas = document.querySelector(".clear-canvas"),
+  canvasBackgroundColor = document.querySelector("#canvasBackgroundColor"),
+
+
   fillColor = document.querySelector("#fillColor"),
   sizeSlider = document.querySelector("#size_slider"),
   context = canvas.getContext("2d");
 
 console.log(toolButtons);
-console.log(fillColor);
+console.log(fillColor); 
 
 let prevMouseX,
   prevMouseY,
@@ -21,6 +26,11 @@ const setCanvasBackground = () => {
   context.fillStyle = "#fff";
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = selectedColor;
+};
+
+const setCanvasBackgroundColor = (color) => {
+  context.fillStyle =color;
+  context.fillRect(0, 0, canvas.width, canvas.height);
 };
 
 window.addEventListener("load", () => {
@@ -127,7 +137,18 @@ colorPicker.addEventListener("change", () => {
   colorPicker.parentElement.click();
 });
 
+
+clearCanvas.addEventListener("click", () => {
+  context.clearRect(0 , 0, canvas.width, canvas.height);
+  setCanvasBackground();
+});
+
+canvasBackgroundColor.addEventListener("input", () => {
+  setCanvasBackgroundColor(canvasBackgroundColor.value);
+});
+
 sizeSlider.addEventListener("change", () => pencilWidth = sizeSlider.value);
+
 
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
