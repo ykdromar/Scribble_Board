@@ -7,7 +7,7 @@
   </head> 
   <body>
     <div id="board">
-        <canvas></canvas>
+        <canvas id ="canvas"></canvas>
       </div>
       <div id="toolPalette">
         <ul id="pens" class="list">
@@ -49,9 +49,10 @@
                 <img src="assets/images/circle.svg" />
               </li>
         </ul>
-        <ul id="otherTools" class="list"></ul> 
+        <ul id="otherTools" class="list"></ul>
         <div id="clearCanvas">
           <button class="clear-canvas">Clear Canvas</button>
+          <input id="canvasBackgroundColor" type="color">
         </div>
       </div>
     <script src="./board.js"></script>

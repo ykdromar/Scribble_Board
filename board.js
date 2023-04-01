@@ -4,6 +4,8 @@ const canvas = document.querySelector("canvas"),
   colorPicker = document.querySelector("#colorPicker"),
 
   clearCanvas = document.querySelector(".clear-canvas"),
+  canvasBackgroundColor = document.querySelector("#canvasBackgroundColor"),
+
 
   fillColor = document.querySelector("#fillColor"),
   context = canvas.getContext("2d");
@@ -23,6 +25,11 @@ const setCanvasBackground = () => {
   context.fillStyle = "#fff";
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = selectedColor;
+};
+
+const setCanvasBackgroundColor = (color) => {
+  context.fillStyle =color;
+  context.fillRect(0, 0, canvas.width, canvas.height);
 };
 
 window.addEventListener("load", () => {
@@ -107,7 +114,11 @@ colorPicker.addEventListener("change", () => {
 clearCanvas.addEventListener("click", () => {
   context.clearRect(0 , 0, canvas.width, canvas.height);
   setCanvasBackground();
-})
+});
+
+canvasBackgroundColor.addEventListener("input", () => {
+  setCanvasBackgroundColor(canvasBackgroundColor.value);
+});
 
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
