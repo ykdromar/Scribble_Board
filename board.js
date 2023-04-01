@@ -104,3 +104,21 @@ colorPicker.addEventListener("change", () => {
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
 canvas.addEventListener("mouseup", () => (isDrawing = false));
+
+function previewImage(input){
+  var reader = new FileReader();
+  reader.onload = function(e){
+    document.getElementById("preview").setAttribute("src",e.target.result);
+  }
+  reader.readAsDataURL(input.files[0]);
+}
+
+function setImage(){
+  var x = document.getElementById("x").value;
+  var y = document.getElementById("y").value;
+  var width = document.getElementById("width").value;
+  var height = document.getElementById("height").value;
+
+  var image = document.getElementById("preview");
+  context.drawImage(image, x, y, width, height);
+}
