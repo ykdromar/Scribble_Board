@@ -8,7 +8,8 @@ const canvas = document.querySelector("canvas"),
 console.log(toolButtons);
 console.log(fillColor);
 
-let prevMouseX,
+let isDragged,
+  prevMouseX,
   prevMouseY,
   snapshot,
   isDrawing = false,
@@ -54,6 +55,13 @@ const drawCircle = (e) => {
   fillColor.checked ? context.fill() : context.stroke();
 };
 
+const drawLine = (e) => {
+  context.beginPath(); 
+  context.moveTo(prevMouseX, prevMouseY); 
+  context.lineTo(e.offsetX, e.offsetY);
+  context.stroke();
+}
+
 const startDraw = (e) => {
   isDrawing = true;
   prevMouseX = e.offsetX;
@@ -76,6 +84,8 @@ const drawing = (e) => {
     drawRect(e);
   } else if (selectedTool === "circle") {
     drawCircle(e);
+  } else if (selectedTool === "line") {
+    drawLine(e);
   }
 };
 
@@ -104,3 +114,4 @@ colorPicker.addEventListener("change", () => {
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
 canvas.addEventListener("mouseup", () => (isDrawing = false));
+canvas.addEventListener("dblclick", () => (isDragged= false));
