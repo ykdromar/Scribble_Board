@@ -30,6 +30,7 @@ const setCanvasBackground = () => {
 const setCanvasBackgroundColor = (color) => {
   context.fillStyle =color;
   context.fillRect(0, 0, canvas.width, canvas.height);
+  
 };
 
 window.addEventListener("load", () => {
@@ -75,11 +76,15 @@ const startDraw = (e) => {
   snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
 };
 
+const eraserColor =(color) =>{
+  context.strokeStyle = color;
+}
+
 const drawing = (e) => {
   if (!isDrawing) return;
   context.putImageData(snapshot, 0, 0);
   if (selectedTool === "pencil" || selectedTool === "eraser") {
-    context.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
+    context.strokeStyle = selectedTool === "eraser" ? eraserColor(canvasBackgroundColor.value) : selectedColor;
     context.lineTo(e.offsetX, e.offsetY);
     context.stroke();
   } else if (selectedTool === "rectangle") {
