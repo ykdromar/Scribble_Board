@@ -93,8 +93,10 @@ const startDraw = (e) => {
 const drawing = (e) => {
   if (!isDrawing) return;
   context.putImageData(snapshot, 0, 0);
-  if (selectedTool === "pencil" || selectedTool === "eraser") {
+  if (selectedTool === "pencil" || selectedTool === "eraser" || selectedTool==="highlighter") {
     context.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
+    context.lineWidth = selectedTool === "highlighter" ? 25 : pencilWidth;
+    context.globalAlpha=  selectedTool === "highlighter" ? 0.6: 1;
     context.lineTo(e.offsetX, e.offsetY);
     context.stroke();
   } else if (selectedTool === "rectangle") {
