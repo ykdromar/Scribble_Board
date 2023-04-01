@@ -14,9 +14,8 @@ let prevMouseX,
   isDrawing = false,
   selectedTool = "pencil",
   pencilWidth = 5,
-  selectedColor = { color: "rgb(0, 0, 0)", r: 0, g: 0, b: 0, a:1 };
-  backgroundColor = "#fff";
-
+  selectedColor = { color: "rgb(0, 0, 0)", r: 0, g: 0, b: 0, a: 1 };
+backgroundColor = "#fff";
 
 const setCanvasBackground = () => {
   context.fillStyle = backgroundColor;
@@ -27,7 +26,6 @@ const setCanvasBackground = () => {
 const setCanvasBackgroundColor = () => {
   context.fillStyle = backgroundColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
-  
 };
 
 window.addEventListener("load", () => {
@@ -67,22 +65,17 @@ const drawLine = (e) => {
   context.moveTo(prevMouseX, prevMouseY);
   context.lineTo(e.offsetX, e.offsetY);
   context.stroke();
-} 
+};
 
 function actionFill(startX, startY, currentColor) {
-  let colorLayer = context.getImageData(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
+  let colorLayer = context.getImageData(0, 0, canvas.width, canvas.height);
 
   let startPos = (startY * canvas.width + startX) * 4;
 
   let startR = colorLayer.data[startPos];
   let startG = colorLayer.data[startPos + 1];
   let startB = colorLayer.data[startPos + 2];
-  
+
   if (
     currentColor.r === startR &&
     currentColor.g === startG &&
@@ -90,7 +83,7 @@ function actionFill(startX, startY, currentColor) {
   ) {
     return;
   }
-  
+
   let pixelStack = [[startX, startY]];
   let newPos, x, y, pixelPos, reachLeft, reachRight;
   floodFill();
@@ -99,26 +92,24 @@ function actionFill(startX, startY, currentColor) {
     x = newPos[0];
     y = newPos[1];
 
-    
     pixelPos = (y * canvas.width + x) * 4;
-    
+
     while (y >= 0 && matchStartColor(pixelPos)) {
       y--;
       pixelPos -= canvas.width * 4;
     }
-    
+
     pixelPos += canvas.width * 4;
     y++;
     reachLeft = false;
     reachRight = false;
-    
+
     while (y < canvas.height && matchStartColor(pixelPos)) {
       colorPixel(pixelPos);
 
       if (x > 0) {
         if (matchStartColor(pixelPos - 4)) {
           if (!reachLeft) {
-            
             pixelStack.push([x - 1, y]);
             reachLeft = true;
           }
@@ -130,7 +121,6 @@ function actionFill(startX, startY, currentColor) {
       if (x < canvas.width - 1) {
         if (matchStartColor(pixelPos + 4)) {
           if (!reachRight) {
-            
             pixelStack.push([x + 1, y]);
             reachRight = true;
           }
@@ -173,22 +163,17 @@ const drawTriangle = (e) => {
   fillColor.checked ? context.fill() : context.stroke();
 };
 
-
 const startDraw = (e) => {
   isDrawing = true;
   prevMouseX = e.offsetX;
   prevMouseY = e.offsetY;
   context.beginPath();
   context.lineWidth = pencilWidth;
-  context.strokeStyle = selectedColor;
-  context.fillStyle = selectedColor;
+  context.strokeStyle = selectedColor.color;
+  context.fillStyle = selectedColor.color;
   context.globalAlpha = 1;
   snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
 };
-
-const eraserColor =(color) =>{
-  context.strokeStyle = color;
-}
 
 const drawing = (e) => {
   if (!isDrawing) return;
@@ -199,7 +184,8 @@ const drawing = (e) => {
     selectedTool === "eraser" ||
     selectedTool === "highlighter"
   ) {
-     context.strokeStyle = selectedTool === "eraser" ? eraserColor(canvasBackgroundColor.value) : selectedColor;
+    context.strokeStyle =
+      selectedTool === "eraser" ? canvasBackgroundColor.value : selectedColor;
     context.lineWidth = selectedTool === "highlighter" ? 25 : pencilWidth;
     context.globalAlpha = selectedTool === "highlighter" ? 0.6 : 1;
 
@@ -211,13 +197,10 @@ const drawing = (e) => {
     drawCircle(e);
   } else if (selectedTool === "line") {
     drawLine(e);
-
   } else if (selectedTool === "paint-bucket") {
-    actionFill(prevMouseX, prevMouseY,selectedColor);
-
+    actionFill(prevMouseX, prevMouseY, selectedColor);
   } else if (selectedTool === "triangle") {
     drawTriangle(e);
-
   }
 };
 
@@ -236,10 +219,10 @@ colorButtons.forEach((button) => {
     selectedColor.color = window
       .getComputedStyle(button)
       .getPropertyValue("background-color");
-      var rgb = selectedColor.color.match(/\d+/g);
-    selectedColor.r=rgb[0];
-    selectedColor.g=rgb[1];
-    selectedColor.b=rgb[2];
+    var rgb = selectedColor.color.match(/\d+/g);
+    selectedColor.r = rgb[0];
+    selectedColor.g = rgb[1];
+    selectedColor.b = rgb[2];
   });
 });
 
@@ -249,7 +232,7 @@ colorPicker.addEventListener("change", () => {
 });
 
 clearCanvas.addEventListener("click", () => {
-  // context.clearRect(0, 0, canvas.width, canvas.height);
+  context.clearRect(0, 0, canvas.width, canvas.height);
   setCanvasBackground();
 });
 
