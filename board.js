@@ -2,7 +2,10 @@ const canvas = document.querySelector("canvas"),
   toolButtons = document.querySelectorAll(".tool"),
   colorButtons = document.querySelectorAll(".color"),
   colorPicker = document.querySelector("#colorPicker"),
+  clearCanvas = document.querySelector(".clear-canvas"),
+  canvasBackgroundColor = document.querySelector("#canvasBackgroundColor"),
   fillColor = document.querySelector("#fillColor"),
+  sizeSlider = document.querySelector("#size_slider"),
   context = canvas.getContext("2d");
 
 console.log(toolButtons);
@@ -15,11 +18,18 @@ let prevMouseX,
   selectedTool = "pencil",
   pencilWidth = 5,
   selectedColor = { color: "rgb(0, 0, 0)", r: 0, g: 0, b: 0, a:1 };
+  backgroundColor = "#fff";
+
 
 const setCanvasBackground = () => {
-  context.fillStyle = "#fff";
+  context.fillStyle = backgroundColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = selectedColor.color;
+};
+
+const setCanvasBackgroundColor = () => {
+  context.fillStyle = backgroundColor;
+  context.fillRect(0, 0, canvas.width, canvas.height);
 };
 
 window.addEventListener("load", () => {
@@ -55,10 +65,11 @@ const drawCircle = (e) => {
 };
 
 const drawLine = (e) => {
-  context.beginPath(); 
-  context.moveTo(prevMouseX, prevMouseY); 
+  context.beginPath();
+  context.moveTo(prevMouseX, prevMouseY);
   context.lineTo(e.offsetX, e.offsetY);
   context.stroke();
+
 } 
 
 function actionFill(startX, startY, currentColor) {
@@ -156,6 +167,18 @@ function actionFill(startX, startY, currentColor) {
   }
 }
 
+};
+
+const drawTriangle = (e) => {
+  context.beginPath();
+  context.moveTo(prevMouseX, prevMouseY);
+  context.lineTo(e.offsetX, e.offsetY);
+  context.lineTo(prevMouseX * 2 - e.offsetX, e.offsetY);
+  context.closePath();
+  fillColor.checked ? context.fill() : context.stroke();
+};
+
+
 const startDraw = (e) => {
   isDrawing = true;
   prevMouseX = e.offsetX;
@@ -170,8 +193,11 @@ const startDraw = (e) => {
 const drawing = (e) => {
   if (!isDrawing) return;
   context.putImageData(snapshot, 0, 0);
-  if (selectedTool === "pencil" || selectedTool === "eraser") {
-    context.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor.color;
+  if (selectedTool === "pencil" || selectedTool === "eraser" || selectedTool==="highlighter") {
+    context.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
+    context.lineWidth = selectedTool === "highlighter" ? 25 : pencilWidth;
+    context.globalAlpha=  selectedTool === "highlighter" ? 0.6: 1;
+
     context.lineTo(e.offsetX, e.offsetY);
     context.stroke();
   } else if (selectedTool === "rectangle") {
@@ -180,8 +206,13 @@ const drawing = (e) => {
     drawCircle(e);
   } else if (selectedTool === "line") {
     drawLine(e);
+
   } else if (selectedTool === "paint-bucket") {
     actionFill(prevMouseX, prevMouseY,selectedColor);
+
+  } else if (selectedTool === "triangle") {
+    drawTriangle(e);
+
   }
 };
 
@@ -206,11 +237,24 @@ colorButtons.forEach((button) => {
     selectedColor.b=rgb[2];
   });
 });
+
 colorPicker.addEventListener("change", () => {
   colorPicker.parentElement.style.background = colorPicker.value;
   colorPicker.parentElement.click();
 });
 
+clearCanvas.addEventListener("click", () => {
+  // context.clearRect(0, 0, canvas.width, canvas.height);
+  setCanvasBackground();
+});
+
+canvasBackgroundColor.addEventListener("input", () => {
+  backgroundColor = canvasBackgroundColor.value;
+  setCanvasBackgroundColor();
+});
+
+sizeSlider.addEventListener("change", () => (pencilWidth = sizeSlider.value));
+
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
-canvas.addEventListener("mouseup", () => (isDrawing = false));
+window.addEventListener("mouseup", () => (isDrawing = false));

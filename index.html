@@ -1,62 +1,76 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Scribble Board</title>
-    <link rel="icon" type="image/x-icon" href="./assets//images/Hall3_logo.png">
-    <link rel="stylesheet" href="./index.css" />
-  </head>
-  <body>
-    <div id="board">
-        <canvas></canvas>
-      </div>
-      <div id="toolPalette">
-        <ul id="pens" class="list">
-          <li class="tool activeTool" id="pencil">
-            <img src="assets/images/pencil.svg" />
+<head>
+  <title>Scribble Board</title>
+  <link rel="icon" type="image/x-icon" href="./assets//images/Hall3_logo.png">
+  <link rel="stylesheet" href="./index.css" />
+</head>
+
+<body>
+  <div id="board">
+    <canvas></canvas>
+  </div>
+  <div id="toolPalette">
+    <ul id="pens" class="list">
+      <li class="tool activeTool" id="pencil">
+        <img src="assets/images/pencil.svg" />
+      </li>
+      <li class="tool" id="highlighter">
+            <img src="assets/images/highlighter.svg" />
           </li>
-          <li class="tool" id="eraser">
-            <img src="assets/images/eraser.svg" />
-          </li>
-        </ul>
-        <ul id="colors" class="list">
-          <li id="black" class="color activeColor"></li>
-          <li id="blue" class="color"></li>
-          <li id="red" class="color"></li>
-          <li id="green" class="color"></li>
-  
-           <li id="customColor" class="color">
-            <input
-              type="color"
-              id="colorPicker"
-              class="color"
-              value="#FCFF00"
-            ></input>
-          </li> 
-          <li>
-            <input
-              type="checkbox"
-              id="fillColor"
-              checked="true"
-              class="color"
-            ></input>
-          </li> 
-        </ul>
-        <ul id="shapes" class="list">
-            <li class="tool " id="rectangle">
-                <img src="assets/images/rectangle.svg" />
-              </li>
-              <li class="tool" id="circle">
-                <img src="assets/images/circle.svg" />
-              </li>
-              <li class="tool" id="line">
+      <li class="tool" id="eraser">
+        <img src="assets/images/eraser.svg" />
+      </li>
+    </ul>
+    <ul id="colors" class="list">
+      <li id="black" class="color activeColor"></li>
+      <li id="blue" class="color"></li>
+      <li id="red" class="color"></li>
+      <li id="green" class="color"></li>
+
+      <li id="customColor" class="color">
+        <input type="color" id="colorPicker" class="color" value="#FCFF00"></input>
+      </li>
+      <li>
+        <input type="checkbox" id="fillColor" checked="true" class="color"></input>
+      </li>
+    </ul>
+    <ul id="shapes" class="list">
+      <li class="tool " id="rectangle">
+        <img src="assets/images/rectangle.svg" />
+      </li>
+      <li class="tool" id="circle">
+        <img src="assets/images/circle.svg" />
+      </li>
+      <li class="tool" id="line">
                 <img src="assets/images/line.svg" />
+              <li class="tool" id="triangle">
+                <img src="assets/images/triangle.svg" />
               </li>
-              <li class="tool" id="paint-bucket"> 
-                <img src="assets/images/paint-bucket.svg" />
-              </li>
+
+              
         </ul>
         <ul id="otherTools" class="list"></ul> 
       </div>
     <script src="./board.js"></script>
   </body>
+
+    </ul>
+    <ul id="otherTools" class="list">
+    <li class="tool" id="paint-bucket"> 
+                <img src="assets/images/paint-bucket.svg" />
+              </li>
+      <li>
+        <input type="range" id="size_slider" min="1" max="30" value="5">
+      </li>
+      <li id="clearCanvas">
+          <button class="clear-canvas">Clear Canvas</button>
+          <input id="canvasBackgroundColor" type="color">
+        </li>
+    </ul>
+  </div>
+  <script src="./board.js"></script>
+</body>
+
 </html>
+
