@@ -8,8 +8,7 @@ const canvas = document.querySelector("canvas"),
 console.log(toolButtons);
 console.log(fillColor);
 
-let isDragged,
-  prevMouseX,
+let prevMouseX,
   prevMouseY,
   snapshot,
   isDrawing = false,
@@ -114,4 +113,3 @@ colorPicker.addEventListener("change", () => {
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
 canvas.addEventListener("mouseup", () => (isDrawing = false));
-canvas.addEventListener("dblclick", () => (isDragged= false));
