@@ -8,6 +8,9 @@ const canvas = document.querySelector("canvas"),
   sizeSlider = document.querySelector("#size_slider"),
   context = canvas.getContext("2d");
 
+// var img1 = Image("assets/images/spray.png");
+// var pat = ctx.createPattern(img1, "repeat");
+
 let prevMouseX,
   prevMouseY,
   snapshot,
@@ -168,6 +171,13 @@ const startDraw = (e) => {
   prevMouseX = e.offsetX;
   prevMouseY = e.offsetY;
   context.beginPath();
+  // if (selectedTool === "spray") {
+  //   context.strokeStyle = selectedColor;
+  //   context.moveTo(prevMouseX, prevMouseY);         
+  //   context.lineTo(e.offsetX + Math.random() * 20 - 10, 
+  //                  e.offsetY + Math.random() * 20 - 10);              
+  //   context.stroke();
+  // }
   context.lineWidth = pencilWidth;
   context.strokeStyle = selectedColor.color;
   context.fillStyle = selectedColor.color;
@@ -182,7 +192,7 @@ const drawing = (e) => {
   if (
     selectedTool === "pencil" ||
     selectedTool === "eraser" ||
-    selectedTool === "highlighter"
+    selectedTool === "highlighter" 
   ) {
     context.strokeStyle =
       selectedTool === "eraser" ? canvasBackgroundColor.value : selectedColor;
