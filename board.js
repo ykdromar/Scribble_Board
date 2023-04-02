@@ -6,8 +6,8 @@ const canvas = document.querySelector("canvas"),
   canvasBackgroundColor = document.querySelector("#canvasBackgroundColor"),
   fillColor = document.querySelector("#fillColor"),
   sizeSlider = document.querySelector("#size_slider"),
-  context = canvas.getContext("2d");
-
+  context = canvas.getContext("2d"),
+  pencil = document.querySelector("#pencil");
 let prevMouseX,
   prevMouseY,
   snapshot,
@@ -295,6 +295,8 @@ window.addEventListener("mouseup", () => {
     if (isDragging) {
       isSelecting = false;
       isDragging = false;
+      selectedTool = "pencil";
+      pencil.classList.add("activeTool");
     }
   }
 });
