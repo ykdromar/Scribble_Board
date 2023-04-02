@@ -21,8 +21,12 @@ let prevMouseX,
   pencilWidth = 5,
   selectedColor = "#000";
 
-const setCanvasBackground = () => {
+  const objects = [];
+
+
+const setCanvasBackground = (color) => {
   context.fillStyle = "#fff";
+  context.fillStyle = color;
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = selectedColor;
 };
@@ -118,7 +122,7 @@ colorPicker.addEventListener("change", () => {
 
 clearCanvas.addEventListener("click", () => {
   context.clearRect(0 , 0, canvas.width, canvas.height);
-  setCanvasBackground();
+  setCanvasBackground(canvasBackgroundColor.value);
 });
 
 canvasBackgroundColor.addEventListener("input", () => {
