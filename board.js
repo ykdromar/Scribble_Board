@@ -14,9 +14,11 @@ let prevMouseX,
   isDrawing = false,
   selectedTool = "pencil",
   pencilWidth = 5,
-  selectedColor = { color: "rgb(0, 0, 0)", r: 0, g: 0, b: 0, a: 1 };
-backgroundColor = "#fff";
-
+  selectedColor = { color: "rgb(0, 0, 0)", r: 0, g: 0, b: 0, a: 1 },
+  backgroundColor = "#fff",
+  isDragging = false,
+  isSelecting = false;
+selection;
 const setCanvasBackground = () => {
   context.fillStyle = backgroundColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
@@ -33,6 +35,19 @@ window.addEventListener("load", () => {
   canvas.height = canvas.offsetHeight;
   setCanvasBackground();
 });
+
+const select = (e) => {
+  if (isSelecting) {
+    // drawRect(e);
+    console.log(prevMouseX, prevMouseY, e.offsetX, e.offsetY);
+    selection = context.getImageData(
+      prevMouseX,
+      prevMouseY,
+      e.offsetX - prevMouseX,
+      e.offsetY - prevMouseY
+    );
+  }
+};
 
 const drawRect = (e) => {
   if (!fillColor.checked) {
@@ -172,6 +187,22 @@ const startDraw = (e) => {
   context.strokeStyle = selectedColor.color;
   context.fillStyle = selectedColor.color;
   context.globalAlpha = 1;
+  if (selectedTool === "selection") {
+    if (isSelecting === true && isDragging === false) {
+      console.log("Started dragging");
+      isSelecting = false;
+      isDragging = true;
+    }
+    //  else if (isSelecting === false && isDragging === true) {
+    //   isSelecting = true;
+    //   isDragging = false;
+    // }
+    else if (isSelecting === false && isDragging === false) {
+      console.log("Started selection");
+
+      isSelecting = true;
+    }
+  }
   snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
 };
 
@@ -201,7 +232,20 @@ const drawing = (e) => {
     actionFill(prevMouseX, prevMouseY, selectedColor);
   } else if (selectedTool === "triangle") {
     drawTriangle(e);
+  } else if (selectedTool === "selection") {
+    if (isSelecting) {
+      select(e);
+    } else if (isDragging) {
+      moveSelection(e);
+    }
   }
+};
+
+const moveSelection = (e) => {
+  console.log(e.offsetX, e.offsetY, selection.width, selection.height);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  setCanvasBackground();
+  context.putImageData(selection, e.offsetX, e.offsetY);
 };
 
 toolButtons.forEach((button) => {
@@ -245,4 +289,12 @@ sizeSlider.addEventListener("change", () => (pencilWidth = sizeSlider.value));
 
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
-window.addEventListener("mouseup", () => (isDrawing = false));
+window.addEventListener("mouseup", () => {
+  isDrawing = false;
+  if (selectedTool === "selection") {
+    if (isDragging) {
+      isSelecting = false;
+      isDragging = false;
+    }
+  }
+});
