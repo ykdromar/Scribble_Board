@@ -6,9 +6,9 @@ const canvas = document.querySelector("canvas"),
   canvasBackgroundColor = document.querySelector("#canvasBackgroundColor"),
   fillColor = document.querySelector("#fillColor"),
   sizeSlider = document.querySelector("#size_slider"),
-  context = canvas.getContext("2d");
-
-
+  context = canvas.getContext("2d"),
+  pencil = document.querySelector("#pencil"),
+  selectionTool = document.querySelector("#selection");
 
 let prevMouseX,
   prevMouseY,
@@ -16,9 +16,13 @@ let prevMouseX,
   isDrawing = false,
   selectedTool = "pencil",
   pencilWidth = 5,
-  selectedColor = { color: "rgb(0, 0, 0)", r: 0, g: 0, b: 0, a: 1 };
-backgroundColor = "#fff";
-
+  selectedColor = { color: "rgb(0, 0, 0)", r: 0, g: 0, b: 0, a: 1 },
+  backgroundColor = "#fff",
+  isDragging = false,
+  isSelecting = false,
+  startingX,
+  startingY;
+selection;
 const setCanvasBackground = () => {
   context.fillStyle = backgroundColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
@@ -35,6 +39,19 @@ window.addEventListener("load", () => {
   canvas.height = canvas.offsetHeight;
   setCanvasBackground();
 });
+
+const select = (e) => {
+  if (isSelecting) {
+    // drawRect(e);
+    console.log(prevMouseX, prevMouseY, e.offsetX, e.offsetY);
+    selection = context.getImageData(
+      prevMouseX,
+      prevMouseY,
+      e.offsetX - prevMouseX,
+      e.offsetY - prevMouseY
+    );
+  }
+};
 
 const drawRect = (e) => {
   if (!fillColor.checked) {
@@ -178,6 +195,7 @@ const startDraw = (e) => {
   prevMouseX = e.offsetX;
   prevMouseY = e.offsetY;
   context.beginPath();
+
   if(selectedTool === "texture"){
     console.log("texture selected");
       const pattern = context.createPattern(img, "repeat");
@@ -192,11 +210,29 @@ const startDraw = (e) => {
       context.strokeStyle = selectedColor.color;
       context.fillStyle = selectedColor.color;
     };
-    context.globalAlpha = 1;
     context.lineJoin = "round";
-    context.lineWidth = pencilWidth;
-    snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
-  };
+  context.lineWidth = pencilWidth;
+  context.strokeStyle = selectedColor.color;
+  context.fillStyle = selectedColor.color;
+  context.globalAlpha = 1;
+  if (selectedTool === "selection") {
+    if (isSelecting === true && isDragging === false) {
+      console.log("Started dragging");
+      isSelecting = false;
+      isDragging = true;
+    }
+    //  else if (isSelecting === false && isDragging === true) {
+    //   isSelecting = true;
+    //   isDragging = false;
+    // }
+    else if (isSelecting === false && isDragging === false) {
+      console.log("Started selection");
+
+      isSelecting = true;
+    }
+  }
+  snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
+};
 
 
 const drawing = (e) => {
@@ -227,7 +263,31 @@ const drawing = (e) => {
     actionFill(prevMouseX, prevMouseY, selectedColor);
   } else if (selectedTool === "triangle") {
     drawTriangle(e);
+  } else if (selectedTool === "selection") {
+    if (isSelecting) {
+      startingX = e.offsetX;
+      startingY = e.offsetY;
+      select(e);
+    } else if (isDragging) {
+      context.clearRect(
+        startingX,
+        startingY,
+        selection.width,
+        selection.height
+      );
+      moveSelection(e);
+    }
   }
+};
+let preX = prevMouseX,
+  preY = prevMouseY;
+const moveSelection = (e) => {
+  console.log(e.offsetX, e.offsetY, selection.width, selection.height);
+  context.clearRect(preX, preY, selection.width, selection.height);
+  // setCanvasBackground();
+  context.putImageData(selection, e.offsetX, e.offsetY);
+  preX = e.offsetX;
+  preY = e.offsetY;
 };
 
 toolButtons.forEach((button) => {
@@ -271,4 +331,15 @@ sizeSlider.addEventListener("change", () => (pencilWidth = sizeSlider.value));
 
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
-window.addEventListener("mouseup", () => (isDrawing = false));
+window.addEventListener("mouseup", () => {
+  isDrawing = false;
+  if (selectedTool === "selection") {
+    if (isDragging) {
+      isSelecting = false;
+      isDragging = false;
+      selectedTool = "pencil";
+      selectionTool.classList.remove("activeTool");
+      pencil.classList.add("activeTool");
+    }
+  }
+});
