@@ -9,6 +9,7 @@ const canvas = document.querySelector("canvas"),
   context = canvas.getContext("2d"),
   pencil = document.querySelector("#pencil"),
   selectionTool = document.querySelector("#selection");
+
 let prevMouseX,
   prevMouseY,
   snapshot,
@@ -49,6 +50,15 @@ const select = (e) => {
       e.offsetX - prevMouseX,
       e.offsetY - prevMouseY
     );
+    //////////////creating selection box/////////////
+    context.strokeStyle = "#505050";
+    context.lineWidth = 1;
+    context.strokeRect(
+      e.offsetX,
+      e.offsetY,
+      prevMouseX - e.offsetX,
+      prevMouseY - e.offsetY
+      );
   }
 };
 
@@ -181,14 +191,34 @@ const drawTriangle = (e) => {
   fillColor.checked ? context.fill() : context.stroke();
 };
 
+const img = new Image();
+img.src = "assets/images/crayon.png";
+const pattern = context.createPattern(img, "repeat");
+
+const img2 = new Image();
+img2.src = "assets/images/gradient2.webp";
+const gradPattern = context.createPattern(img2, "repeat");
+
 const startDraw = (e) => {
   isDrawing = true;
   prevMouseX = e.offsetX;
   prevMouseY = e.offsetY;
   context.beginPath();
+
+  if (selectedTool === "texture") {
+    console.log("texture selected");
+    const pattern = context.createPattern(img, "repeat");
+    context.strokeStyle = pattern;
+  } else if (selectedTool === "gradient") {
+    console.log("gradient selected");
+    const gradPattern = context.createPattern(img2, "repeat");
+    context.strokeStyle = gradPattern;
+  } else {
+    context.strokeStyle = selectedColor.color;
+    context.fillStyle = selectedColor.color;
+  }
+  context.lineJoin = "round";
   context.lineWidth = pencilWidth;
-  context.strokeStyle = selectedColor.color;
-  context.fillStyle = selectedColor.color;
   context.globalAlpha = 1;
   if (selectedTool === "selection") {
     if (isSelecting === true && isDragging === false) {
@@ -216,15 +246,29 @@ const drawing = (e) => {
   if (
     selectedTool === "pencil" ||
     selectedTool === "eraser" ||
-    selectedTool === "highlighter"
+    selectedTool === "highlighter" ||
+    selectedTool === "texture" ||
+    selectedTool === "gradient"
   ) {
     context.strokeStyle =
-      selectedTool === "eraser" ? canvasBackgroundColor.value : selectedColor;
+      selectedTool === "eraser"
+        ? canvasBackgroundColor.value
+        : selectedTool === "texture"
+        ? pattern
+        : selectedColor;
     context.lineWidth = selectedTool === "highlighter" ? 25 : pencilWidth;
     context.globalAlpha = selectedTool === "highlighter" ? 0.6 : 1;
 
     if(selectedTool === "pencil") {
-      document.getElementById("body").style.cursor = "url('assets/cursors/pencil.cur'), auto";
+      document.getElementById("body").style.cursor = "url('assets/cursors/pencil.png'), auto";
+    } else if(selectedTool === "highlighter") {
+      document.getElementById("body").style.cursor = "url('assets/cursors/highlighter.png'), auto";
+    } else if(selectedTool === "eraser") {
+      document.getElementById("body").style.cursor = "url('assets/cursors/eraser.png'), auto";
+    } else if(selectedTool === "texture") {
+      document.getElementById("body").style.cursor = "url('assets/cursors/crayon.png'), auto";
+    } else if(selectedTool === "gradient") {
+      document.getElementById("body").style.cursor = "url('assets/cursors/brush.png'), auto";
     }
 
     context.lineTo(e.offsetX, e.offsetY);
@@ -239,22 +283,30 @@ const drawing = (e) => {
     document.getElementById("body").style.cursor = "crosshair";
     drawLine(e);
   } else if (selectedTool === "paint-bucket") {
-    
+    document.getElementById("body").style.cursor = "url('assets/cursors/paint-bucket.png'), auto";
     actionFill(prevMouseX, prevMouseY, selectedColor);
   } else if (selectedTool === "triangle") {
     document.getElementById("body").style.cursor = "crosshair";
     drawTriangle(e);
   } else if (selectedTool === "selection") {
+    document.getElementById("body").style.cursor = "crosshair";
     if (isSelecting) {
       startingX = e.offsetX;
       startingY = e.offsetY;
       select(e);
     } else if (isDragging) {
       context.clearRect(
-        startingX,
-        startingY,
+        startingX-selection.width,
+        startingY-selection.height,
         selection.width,
         selection.height
+      );
+      context.fillStyle= backgroundColor;
+      context.fillRect(
+        startingX-selection.width-1,
+        startingY-selection.height-1,
+        selection.width+2,
+        selection.height+2
       );
       moveSelection(e);
     }
@@ -264,7 +316,7 @@ let preX = prevMouseX,
   preY = prevMouseY;
 const moveSelection = (e) => {
   console.log(e.offsetX, e.offsetY, selection.width, selection.height);
-  context.clearRect(preX, preY, selection.width, selection.height);
+  // context.clearRect(preX, preY, selection.width, selection.height);
   // setCanvasBackground();
   context.putImageData(selection, e.offsetX, e.offsetY);
   preX = e.offsetX;

@@ -35,7 +35,7 @@
   align-items: center;
   justify-content: flex-start;
   transition: 0.3s ease-in-out;
-  /* cursor : url("assets/images/cursor.cur"), auto; */
+  cursor: auto;
 }
 
 #toolPalette:hover {
