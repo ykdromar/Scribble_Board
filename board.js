@@ -50,6 +50,15 @@ const select = (e) => {
       e.offsetX - prevMouseX,
       e.offsetY - prevMouseY
     );
+    //////////////creating selection box/////////////
+    context.strokeStyle = "#505050";
+    context.lineWidth = 1;
+    context.strokeRect(
+      e.offsetX,
+      e.offsetY,
+      prevMouseX - e.offsetX,
+      prevMouseY - e.offsetY
+      );
   }
 };
 
@@ -269,10 +278,17 @@ const drawing = (e) => {
       select(e);
     } else if (isDragging) {
       context.clearRect(
-        startingX,
-        startingY,
+        startingX-selection.width,
+        startingY-selection.height,
         selection.width,
         selection.height
+      );
+      context.fillStyle= backgroundColor;
+      context.fillRect(
+        startingX-selection.width-1,
+        startingY-selection.height-1,
+        selection.width+2,
+        selection.height+2
       );
       moveSelection(e);
     }
@@ -282,7 +298,7 @@ let preX = prevMouseX,
   preY = prevMouseY;
 const moveSelection = (e) => {
   console.log(e.offsetX, e.offsetY, selection.width, selection.height);
-  context.clearRect(preX, preY, selection.width, selection.height);
+  // context.clearRect(preX, preY, selection.width, selection.height);
   // setCanvasBackground();
   context.putImageData(selection, e.offsetX, e.offsetY);
   preX = e.offsetX;
