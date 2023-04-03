@@ -7,7 +7,8 @@ const canvas = document.querySelector("canvas"),
   fillColor = document.querySelector("#fillColor"),
   sizeSlider = document.querySelector("#size_slider"),
   context = canvas.getContext("2d"),
-  pencil = document.querySelector("#pencil");
+  pencil = document.querySelector("#pencil"),
+  selectionTool = document.querySelector("#selection");
 let prevMouseX,
   prevMouseY,
   snapshot,
@@ -17,7 +18,9 @@ let prevMouseX,
   selectedColor = { color: "rgb(0, 0, 0)", r: 0, g: 0, b: 0, a: 1 },
   backgroundColor = "#fff",
   isDragging = false,
-  isSelecting = false;
+  isSelecting = false,
+  startingX,
+  startingY;
 selection;
 const setCanvasBackground = () => {
   context.fillStyle = backgroundColor;
@@ -234,18 +237,29 @@ const drawing = (e) => {
     drawTriangle(e);
   } else if (selectedTool === "selection") {
     if (isSelecting) {
+      startingX = e.offsetX;
+      startingY = e.offsetY;
       select(e);
     } else if (isDragging) {
+      context.clearRect(
+        startingX,
+        startingY,
+        selection.width,
+        selection.height
+      );
       moveSelection(e);
     }
   }
 };
-
+let preX = prevMouseX,
+  preY = prevMouseY;
 const moveSelection = (e) => {
   console.log(e.offsetX, e.offsetY, selection.width, selection.height);
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  setCanvasBackground();
+  context.clearRect(preX, preY, selection.width, selection.height);
+  // setCanvasBackground();
   context.putImageData(selection, e.offsetX, e.offsetY);
+  preX = e.offsetX;
+  preY = e.offsetY;
 };
 
 toolButtons.forEach((button) => {
@@ -296,6 +310,7 @@ window.addEventListener("mouseup", () => {
       isSelecting = false;
       isDragging = false;
       selectedTool = "pencil";
+      selectionTool.classList.remove("activeTool");
       pencil.classList.add("activeTool");
     }
   }
