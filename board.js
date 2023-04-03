@@ -166,7 +166,7 @@ const drawTriangle = (e) => {
 };
 
 const img = new Image();
-img.src = "assets/images/dotted.png"
+img.src = "assets/images/crayon.png"
 const pattern = context.createPattern(img, "repeat");
 
 const img2 = new Image();
