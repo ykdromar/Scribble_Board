@@ -183,7 +183,7 @@ const drawTriangle = (e) => {
 };
 
 const img = new Image();
-img.src = "assets/images/crayon.png"
+img.src = "assets/images/crayon.png";
 const pattern = context.createPattern(img, "repeat");
 
 const img2 = new Image();
@@ -196,24 +196,20 @@ const startDraw = (e) => {
   prevMouseY = e.offsetY;
   context.beginPath();
 
-  if(selectedTool === "texture"){
+  if (selectedTool === "texture") {
     console.log("texture selected");
-      const pattern = context.createPattern(img, "repeat");
-      context.strokeStyle = pattern;
-    }
-    else if(selectedTool === "gradient"){
-      console.log("gradient selected");
-        const gradPattern = context.createPattern(img2, "repeat");
-        context.strokeStyle = gradPattern;
-      }
-    else{
-      context.strokeStyle = selectedColor.color;
-      context.fillStyle = selectedColor.color;
-    };
-    context.lineJoin = "round";
+    const pattern = context.createPattern(img, "repeat");
+    context.strokeStyle = pattern;
+  } else if (selectedTool === "gradient") {
+    console.log("gradient selected");
+    const gradPattern = context.createPattern(img2, "repeat");
+    context.strokeStyle = gradPattern;
+  } else {
+    context.strokeStyle = selectedColor.color;
+    context.fillStyle = selectedColor.color;
+  }
+  context.lineJoin = "round";
   context.lineWidth = pencilWidth;
-  context.strokeStyle = selectedColor.color;
-  context.fillStyle = selectedColor.color;
   context.globalAlpha = 1;
   if (selectedTool === "selection") {
     if (isSelecting === true && isDragging === false) {
@@ -234,7 +230,6 @@ const startDraw = (e) => {
   snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
 };
 
-
 const drawing = (e) => {
   if (!isDrawing) return;
   context.putImageData(snapshot, 0, 0);
@@ -247,7 +242,11 @@ const drawing = (e) => {
     selectedTool === "gradient"
   ) {
     context.strokeStyle =
-      selectedTool === "eraser" ? canvasBackgroundColor.value : selectedTool === "texture"? pattern : selectedColor;
+      selectedTool === "eraser"
+        ? canvasBackgroundColor.value
+        : selectedTool === "texture"
+        ? pattern
+        : selectedColor;
     context.lineWidth = selectedTool === "highlighter" ? 25 : pencilWidth;
     context.globalAlpha = selectedTool === "highlighter" ? 0.6 : 1;
 
