@@ -223,17 +223,26 @@ const drawing = (e) => {
     context.lineWidth = selectedTool === "highlighter" ? 25 : pencilWidth;
     context.globalAlpha = selectedTool === "highlighter" ? 0.6 : 1;
 
+    if(selectedTool === "pencil") {
+      document.getElementById("body").style.cursor = "url('assets/cursors/pencil.cur'), auto";
+    }
+
     context.lineTo(e.offsetX, e.offsetY);
     context.stroke();
   } else if (selectedTool === "rectangle") {
+    document.getElementById("body").style.cursor = "crosshair";
     drawRect(e);
   } else if (selectedTool === "circle") {
+    document.getElementById("body").style.cursor = "crosshair";
     drawCircle(e);
   } else if (selectedTool === "line") {
+    document.getElementById("body").style.cursor = "crosshair";
     drawLine(e);
   } else if (selectedTool === "paint-bucket") {
+    
     actionFill(prevMouseX, prevMouseY, selectedColor);
   } else if (selectedTool === "triangle") {
+    document.getElementById("body").style.cursor = "crosshair";
     drawTriangle(e);
   } else if (selectedTool === "selection") {
     if (isSelecting) {
