@@ -166,29 +166,34 @@ const drawTriangle = (e) => {
 };
 
 const img = new Image();
-img.src = "assets/images/texture.jpg"
+img.src = "assets/images/dotted.png"
 const pattern = context.createPattern(img, "repeat");
+
+const img2 = new Image();
+img2.src = "assets/images/gradient2.webp";
+const gradPattern = context.createPattern(img2, "repeat");
 
 const startDraw = (e) => {
   isDrawing = true;
   prevMouseX = e.offsetX;
   prevMouseY = e.offsetY;
   context.beginPath();
-  if(selectedTool === "spray"){
-    console.log("spray selected");
-    
-      console.log("image loaded");
+  if(selectedTool === "texture"){
+    console.log("texture selected");
       const pattern = context.createPattern(img, "repeat");
-    
       context.strokeStyle = pattern;
-      context.fillStyle = pattern;
-   
     }
+    else if(selectedTool === "gradient"){
+      console.log("gradient selected");
+        const gradPattern = context.createPattern(img2, "repeat");
+        context.strokeStyle = gradPattern;
+      }
     else{
       context.strokeStyle = selectedColor.color;
       context.fillStyle = selectedColor.color;
     };
     context.globalAlpha = 1;
+    context.lineJoin = "round";
     context.lineWidth = pencilWidth;
     snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
   };
@@ -202,10 +207,11 @@ const drawing = (e) => {
     selectedTool === "pencil" ||
     selectedTool === "eraser" ||
     selectedTool === "highlighter" ||
-    selectedTool === "spray"
+    selectedTool === "texture" ||
+    selectedTool === "gradient"
   ) {
     context.strokeStyle =
-      selectedTool === "eraser" ? canvasBackgroundColor.value : selectedTool === "spray"? pattern : selectedColor;
+      selectedTool === "eraser" ? canvasBackgroundColor.value : selectedTool === "texture"? pattern : selectedColor;
     context.lineWidth = selectedTool === "highlighter" ? 25 : pencilWidth;
     context.globalAlpha = selectedTool === "highlighter" ? 0.6 : 1;
 
