@@ -165,20 +165,34 @@ const drawTriangle = (e) => {
   fillColor.checked ? context.fill() : context.stroke();
 };
 
+const img = new Image();
+img.src = "assets/images/texture.jpg"
+const pattern = context.createPattern(img, "repeat");
+
 const startDraw = (e) => {
   isDrawing = true;
   prevMouseX = e.offsetX;
   prevMouseY = e.offsetY;
   context.beginPath();
-if (selectedTool === "spray") {
-  var img = Image
-}
-  context.lineWidth = pencilWidth;
-  context.strokeStyle = selectedColor.color;
-  context.fillStyle = selectedColor.color;
-  context.globalAlpha = 1;
-  snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
-};
+  if(selectedTool === "spray"){
+    console.log("spray selected");
+    
+      console.log("image loaded");
+      const pattern = context.createPattern(img, "repeat");
+    
+      context.strokeStyle = pattern;
+      context.fillStyle = pattern;
+   
+    }
+    else{
+      context.strokeStyle = selectedColor.color;
+      context.fillStyle = selectedColor.color;
+    };
+    context.globalAlpha = 1;
+    context.lineWidth = pencilWidth;
+    snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
+  };
+
 
 const drawing = (e) => {
   if (!isDrawing) return;
@@ -187,10 +201,11 @@ const drawing = (e) => {
   if (
     selectedTool === "pencil" ||
     selectedTool === "eraser" ||
-    selectedTool === "highlighter" 
+    selectedTool === "highlighter" ||
+    selectedTool === "spray"
   ) {
     context.strokeStyle =
-      selectedTool === "eraser" ? canvasBackgroundColor.value : selectedColor;
+      selectedTool === "eraser" ? canvasBackgroundColor.value : selectedTool === "spray"? pattern : selectedColor;
     context.lineWidth = selectedTool === "highlighter" ? 25 : pencilWidth;
     context.globalAlpha = selectedTool === "highlighter" ? 0.6 : 1;
 
