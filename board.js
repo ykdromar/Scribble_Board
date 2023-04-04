@@ -31,6 +31,7 @@ function detectCircle(points) {
     );
     sumDistances += distance;
   }
+  console.log(sumDistances);
   var radius = sumDistances / points.length;
 
   // Check if the points form a circle by looking at the signs of the derivatives
@@ -69,7 +70,7 @@ function detectPolygon(points) {
     // var dr = Math.sqrt(dx * dx + dy * dy);
     var derivative = dy / dx
     if (i > 2) {
-      if (derivative > derivatives[i - 2] + getTanFromDegrees(45) || derivative < derivatives[i - 2] - getTanFromDegrees(45)) {
+      if (derivative > derivatives[i - 1] + getTanFromDegrees(30) || derivative < derivatives[i - 1] - getTanFromDegrees(30)) {
         count++;
         edgesIndex.push(i)
       }
@@ -93,7 +94,7 @@ function detectPolygon(points) {
     }
     var radius = sumDistances / points.length;
 
-    return { type: 'circle', center: center, radius: 4 * radius }
+    return { type: 'circle', center: center, radius: radius, count: count }
   }
   if (count >= 4) {
     var centerX = 0;
@@ -113,7 +114,7 @@ function detectPolygon(points) {
       sumDistances += distance;
     }
     var squareLength = sumDistances / (edgesIndex.length)
-    return { type: 'square', center: squareC, length: 4 * squareLength }
+    return { type: 'square', center: squareC, length: 4 * squareLength, count: count}
   }
   else if (count >= 3) {
     var centerX = 0;
@@ -133,7 +134,7 @@ function detectPolygon(points) {
       sumDistances += distance;
     }
     var squareLength = sumDistances / (edgesIndex.length)
-    return { type: 'triangle', center: squareC, length: squareLength }
+    return { type: 'triangle', center: squareC, length: squareLength, count: count }
   }
   else {
     return null;
@@ -218,58 +219,60 @@ const select = (e) => {
 var shapeResult = null
 const handleMagicPen = (e) => {
   console.log(e.offsetX);
-  for (var i = 1; i < drawPoints.length; i++) {
-    if (e.offsetX === drawPoints[i].x && e.offsetY === drawPoints[i].y) {
-      shapeResult = detectShape(drawPoints);
-      drawPoints = [];
-      console.log(shapeResult);
-      break;
-    }
-  }
-  if (drawPoints.length > 1) {
-    if ((e.offsetX != drawPoints[drawPoints.length - 1].x && e.offsetY != drawPoints[drawPoints.length - 1].y))
-      drawPoints.push({ x: e.offsetX, y: e.offsetY });
-  }
-  else {
-    drawPoints.push({ x: e.offsetX, y: e.offsetY });
-  }
-  if (shapeResult != null) {
-    if (shapeResult.type === 'circle') {
-      // context.strokeStyle = bgcolor.color;
-      // for (var i = 0; i < drawPoints.length; i++) {
-      //   context.lineTo(drawPoints[i].x, drawPoints[i].y);
-      //   context.stroke;
-      // }
-      context.strokeStyle = selectedColor;
-      console.log(shapeResult.center.x, shapeResult.radius);
-      context.arc(shapeResult.center.x, shapeResult.center.y, shapeResult.radius, 0, 2 * Math.PI);
-      fillColor.checked ? context.fill() : context.stroke();
-    }
-    else if (shapeResult.type === 'square') {
-      // context.strokeStyle = bgcolor.color;
-      // console.log(selectedColor)
-      // for (var i = 0; i < drawPoints.length; i++) {
-      //   context.lineTo(drawPoints[i].x, drawPoints[i].y);
-      //   context.stroke;
-      // }
-      context.strokeStyle = selectedColor;
-      console.log(shapeResult.center.x, shapeResult.length);
-      if (!fillColor.checked) {
-        return context.strokeRect(
-          shapeResult.center.x,
-          shapeResult.center.y,
-          shapeResult.length,
-          shapeResult.length
-        );
-      }
-      context.fillRect(
-        shapeResult.center.x,
-        shapeResult.center.y,
-        shapeResult.length,
-        shapeResult.length
-      );
-    }
-  }
+  // for (var i = 1; i < drawPoints.length; i++) {
+  //   if (e.offsetX === drawPoints[i].x && e.offsetY === drawPoints[i].y) {
+  //     shapeResult = detectShape(drawPoints);
+  //     drawPoints = [];
+  //     console.log(shapeResult);
+  //     break;
+  //   }
+  // }
+  // if (drawPoints.length > 1) {
+  //   if ((e.offsetX != drawPoints[drawPoints.length - 1].x && e.offsetY != drawPoints[drawPoints.length - 1].y))
+  //     drawPoints.push({ x: e.offsetX, y: e.offsetY });
+  // }
+  // else {
+  //   drawPoints.push({ x: e.offsetX, y: e.offsetY });
+  // }
+  drawPoints.push({ x: e.offsetX, y: e.offsetY });
+
+  // if (shapeResult != null) {
+  //   if (shapeResult.type === 'circle') {
+  //     // context.strokeStyle = bgcolor.color;
+  //     // for (var i = 0; i < drawPoints.length; i++) {
+  //     //   context.lineTo(drawPoints[i].x, drawPoints[i].y);
+  //     //   context.stroke;
+  //     // }
+  //     context.strokeStyle = selectedColor;
+  //     console.log(shapeResult.center.x, shapeResult.radius);
+  //     context.arc(shapeResult.center.x, shapeResult.center.y, shapeResult.radius, 0, 2 * Math.PI);
+  //     fillColor.checked ? context.fill() : context.stroke();
+  //   }
+  //   else if (shapeResult.type === 'square') {
+  //     // context.strokeStyle = bgcolor.color;
+  //     // console.log(selectedColor)
+  //     // for (var i = 0; i < drawPoints.length; i++) {
+  //     //   context.lineTo(drawPoints[i].x, drawPoints[i].y);
+  //     //   context.stroke;
+  //     // }
+  //     context.strokeStyle = selectedColor;
+  //     console.log(shapeResult.center.x, shapeResult.length);
+  //     if (!fillColor.checked) {
+  //       return context.strokeRect(
+  //         shapeResult.center.x,
+  //         shapeResult.center.y,
+  //         shapeResult.length,
+  //         shapeResult.length
+  //       );
+  //     }
+  //     context.fillRect(
+  //       shapeResult.center.x,
+  //       shapeResult.center.y,
+  //       shapeResult.length,
+  //       shapeResult.length
+  //     );
+  //   }
+  // }
 }
 // end of autocomplete2
 
@@ -650,5 +653,48 @@ window.addEventListener("mouseup", () => {
       pencil.classList.add("activeTool");
     }
   }
+  if(selectedTool === "magicPen") {
+    console.log(drawPoints);
+    shapeResult = detectShape(drawPoints);
+    console.log(shapeResult);
 
+    if (shapeResult != null) {
+      if (shapeResult.type === 'circle') {
+        context.strokeStyle = bgcolor.color;
+        for (var i = 0; i < drawPoints.length; i++) {
+          context.lineTo(drawPoints[i].x, drawPoints[i].y);
+          context.stroke();
+        }
+        context.strokeStyle = "rgb(0,0,0)";
+        console.log(shapeResult.center.x, shapeResult.radius);
+        context.arc(shapeResult.center.x, shapeResult.center.y, shapeResult.radius, 0, 2 * Math.PI);
+        fillColor.checked ? context.fill() : context.stroke();
+      } else if (shapeResult.type === 'square') {
+        context.strokeStyle = bgcolor.color;
+        console.log(selectedColor)
+        for (var i = 0; i < drawPoints.length; i++) {
+          context.lineTo(drawPoints[i].x, drawPoints[i].y);
+          context.stroke();
+        }
+        context.strokeStyle = selectedColor;
+        console.log(shapeResult.center.x, shapeResult.length);
+        if (!fillColor.checked) {
+          return context.strokeRect(
+            shapeResult.center.x,
+            shapeResult.center.y,
+            shapeResult.length,
+            shapeResult.length
+          );
+        }
+        context.fillRect(
+          shapeResult.center.x,
+          shapeResult.center.y,
+          shapeResult.length,
+          shapeResult.length
+        );
+      }
+     
+    }
+    drawPoints = [];
+  }
 });
