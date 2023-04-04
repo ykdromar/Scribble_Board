@@ -8,7 +8,8 @@ const canvas = document.querySelector("canvas"),
   sizeSlider = document.querySelector("#size_slider"),
   context = canvas.getContext("2d"),
   pencil = document.querySelector("#pencil"),
-  selectionTool = document.querySelector("#selection");
+  selectionTool = document.querySelector("#selection"),
+  saveImg = document.querySelector(".save-img");
 
 let x1,
   y1,
@@ -40,6 +41,13 @@ window.addEventListener("load", () => {
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
   setCanvasBackground();
+});
+
+saveImg.addEventListener("click", () => {
+  const link = document.createElement("a"); // creating <a> element
+  link.download = `${Date.now()}.jpg`; // passing current date as link download value
+  link.href = canvas.toDataURL(); // passing canvasData as link href value
+  link.click(); // clicking link to download image
 });
 
 const select = (e) => {
