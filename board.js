@@ -10,7 +10,9 @@ const canvas = document.querySelector("canvas"),
   pencil = document.querySelector("#pencil"),
   selectionTool = document.querySelector("#selection");
 
-let prevMouseX,
+let x1,
+  y1,
+  prevMouseX,
   prevMouseY,
   snapshot,
   isDrawing = false,
@@ -59,6 +61,8 @@ const select = (e) => {
       prevMouseX - e.offsetX,
       prevMouseY - e.offsetY
       );
+      x1 = prevMouseX,
+      y1 = prevMouseY;
   }
 };
 
@@ -277,19 +281,74 @@ const drawing = (e) => {
       startingY = e.offsetY;
       select(e);
     } else if (isDragging) {
+      // console.log("isdragging" ,x1, y1, startingX, startingY, Math.abs(startingX-selection.width), Math.abs(startingY-selection.height))
+      console.log("isdragging" ,startingX, startingY, x1, y1,)
+      // if(startingX> Math.abs(startingX-selection.width) && startingY> Math.abs(startingY-selection.height))
+      if(startingX>x1 && startingY>y1){
+        ////for top left
       context.clearRect(
-        startingX-selection.width,
-        startingY-selection.height,
+        (startingX-selection.width),
+        (startingY-selection.height),
         selection.width,
         selection.height
       );
       context.fillStyle= backgroundColor;
       context.fillRect(
-        startingX-selection.width-1,
-        startingY-selection.height-1,
+          startingX-selection.width-1,
+          startingY-selection.height-1,
+          selection.width+2,
+          selection.height+2
+      );
+      }
+      else if(startingX>x1 && startingY<y1){
+      // //////for bottom left
+      context.clearRect(
+        (startingX-selection.width),
+        startingY,
+        selection.width,
+        selection.height
+      );
+      context.fillStyle= backgroundColor;
+      context.fillRect(
+          startingX-selection.width-1,
+          startingY-1,
+          selection.width+2,
+          selection.height+2
+      );
+      }
+      else if(startingX<x1 && startingY>y1){
+      //   // //////for top right
+      context.clearRect(
+        startingX,
+        startingY-selection.height,
+        selection.width,
+        selection.height
+        );
+      context.fillStyle= backgroundColor;
+      context.fillRect(
+          startingX-1,
+          startingY-selection.height-1,
+          selection.width+2,
+          selection.height+2
+        );
+
+      }
+      else if(startingX<x1 && startingY<y1){
+      //   // //////for bottom right
+      context.clearRect(
+        startingX,
+        startingY,
+         selection.width,
+        selection.height
+       );
+      context.fillStyle= backgroundColor;
+      context.fillRect(
+        startingX-1,
+        startingY-1,
         selection.width+2,
         selection.height+2
       );
+      }
       moveSelection(e);
     }
   }
