@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Scribble Board</title>
   <link rel="icon" type="image/x-icon" href="./assets//images/Hall3_logo.png">
-  <link rel="stylesheet" href="./index.css" />
+  <link rel="stylesheet" href="./indexx.css" />
 </head>
 
 <body>
-  <div id="board">
-    <canvas></canvas>
-  </div>
-  <div id="toolPalette">
+  <img id="hall3logo" src="./assets/images/Hall3_logo.png">
+  
+  <div id="toolPalette1">
     <ul id="pens" class="list">
       <li class="tool activeTool" id="pencil">
         <img src="assets/images/pencil.svg" />
+        <span class="tooltiptext">Pencil</span>
       </li>
       <li class="tool" id="highlighter">
-            <img src="assets/images/highlighter.svg" />
-          </li>
+        <img src="assets/images/highlighter.svg" />
+        <span class="tooltiptext">Highlighter</span>
+      </li>
       <li class="tool" id="texture">
-            <img src="assets/images/crayon.svg" />
-          </li>
+        <img src="assets/images/crayon.svg" />
+        <span class="tooltiptext">Crayon</span>
+      </li>
       <li class="tool" id="gradient">
-            <img src="assets/images/brush.svg" />
-          </li>
+        <img src="assets/images/brush.svg" />
+        <span class="tooltiptext">Gradient</span>
+      </li>
       <li class="tool" id="eraser">
         <img src="assets/images/eraser.svg" />
+        <span class="tooltiptext">Eraser</span>
       </li>
     </ul>
     <ul id="colors" class="list">
@@ -36,41 +41,60 @@
 
       <li id="customColor" class="color">
         <input type="color" id="colorPicker" class="color" value="#FCFF00"></input>
+        <!-- <span class="tooltiptext">Custom Color</span> -->
       </li>
       <li>
         <input type="checkbox" id="fillColor" checked="true" class="color"></input>
+        <!-- <span class="tooltiptext">Fill Color in Shapes</span> -->
       </li>
     </ul>
-    <ul id="shapes" class="list">
-      <li class="tool " id="rectangle">
-        <img src="assets/images/rectangle.svg" />
-      </li>
-      <li class="tool" id="circle">
-        <img src="assets/images/circle.svg" />
-      </li>
-      <li class="tool" id="line">
-                <img src="assets/images/line.svg" />
-              <li class="tool" id="triangle">
-                <img src="assets/images/triangle.svg" />
-              </li>
-    </ul>
-    <ul id="otherTools" class="list">
-      <li class="tool" id="selection">
-        <img src="assets/images/selectionTool.svg" />
-      </li>
-      <li>
-        <input type="range" id="size_slider" min="1" max="30" value="5">
-      </li>
-      <li class="tool" id="paint-bucket"> 
-                <img src="assets/images/paint-bucket.svg" />
-              </li>
-      <li id="clearCanvas">
-          <button class="clear-canvas">Clear Canvas</button>
-          <input id="canvasBackgroundColor" type="color" value="#ffffff">
+  </div>
+  <div id="board">
+    <canvas></canvas>
+  </div>
+  <div id="toolPalette2">
+    <button class="saveimg">Save</button>
+    <div>
+      <ul id="shapes" class="list">
+        <li class="tool " id="rectangle">
+          <img src="assets/images/rectangle.svg" />
         </li>
-    </ul>
+        <li class="tool" id="circle">
+          <img src="assets/images/circle.svg" />
+        </li>
+        <li class="tool" id="line">
+          <img src="assets/images/line.svg" />
+        <li class="tool" id="triangle">
+          <img src="assets/images/triangle.svg" />
+        </li>
+      </ul>
+    </div>
+    <div>
+      <ul id="otherTools" class="list">
+        <li class="tool" id="selection">
+          <img src="assets/images/selectionTool.svg" />
+          <!-- <span class="tooltiptext">Cut N Move</span> -->
+        </li>
+        <li class="tool" id="paint-bucket">
+          <img src="assets/images/paint-bucket.svg" />
+          <!-- <span class="tooltiptext">Fill Color</span> -->
+        </li>
+        <li>
+          <input type="range" id="size_slider" min="1" max="50" value="5">
+          <!-- <span class="tooltiptext">Pen Width</span> -->
+        </li>
+        <li id="clearCanvas">
+          <button class="clear-canvas">Clear</button>
+          <!-- <span class="tooltiptext">Clear Canvas</span> -->
+        </li>
+        <li>
+          <input id="canvasBackgroundColor" type="color" value="#ffffff">
+          <!-- <span class="tooltiptext">Background Color</span> -->
+        </li>
+      </ul>
+    </div>
   </div>
   <script src="./board.js"></script>
 </body>
-</html>
 
+</html>
