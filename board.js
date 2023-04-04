@@ -266,7 +266,7 @@ const drawing = (e) => {
     } else if(selectedTool === "eraser") {
       document.getElementById("body").style.cursor = "url('assets/cursors/eraser.png'), auto";
     } else if(selectedTool === "texture") {
-      document.getElementById("body").style.cursor = "url('assets/cursors/crayon.png'), auto";
+      document.getElementById("body").style.cursor = "url('assets/images/crayon.svg'), auto";
     } else if(selectedTool === "gradient") {
       document.getElementById("body").style.cursor = "url('assets/cursors/brush.png'), auto";
     }
