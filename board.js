@@ -769,7 +769,7 @@ window.addEventListener("mouseup", () => {
         
         context.fillStyle = backgroundColor;
         console.log(context.fillStyle);
-        context.fillRect(shapeResult.center.x + shapeResult.length, shapeResult.center.y + 2*shapeResult.length, -3*shapeResult.length, -3*shapeResult.length);
+        context.fillRect(shapeResult.center.x + shapeResult.length, shapeResult.center.y + shapeResult.length, -1.5*shapeResult.length, -1.5*shapeResult.length);
         console.log(shapeResult.center.x, shapeResult.length);
         if (!fillColor.checked) {
           return context.strokeRect(
