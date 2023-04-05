@@ -1,38 +1,32 @@
 * {
   margin: 0%;
-  /* padding: 0%; */
-  /* text-align: center; */
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
-
 }
 
-
-
 body {
-
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #5A5A66;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   width: 100vw;
   box-sizing: border-box;
-  /* user-select: none; */
+  overflow-y: auto;
+  padding: 20px;
+  user-select: none;
 }
 
+#board {
+  height: 100%;
+  width: 100%;
+}
 
 canvas {
-  height: 99vh;
-  width: 88vw;
-  border: 10px solid #5A5A66;
-  border-radius: 25px;
+  height: 100%;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -41,10 +35,16 @@ canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap; */
+  justify-content: center;
+  width: 55px;
+  box-sizing: border-box;
+  padding: 3px;
+  box-shadow: rgba(101, 86, 237, 0.58) 0px 2px 8px 0px;
+  border-radius: 10px;
+  border: 1px solid white;
+  position: relative;
+  z-index: 10;
+  background-color: white;
 }
 
 .tool {
@@ -65,18 +65,15 @@ canvas {
   box-sizing: border-box;
 }
 
-
 .activeColor {
-  border: 3px solid rgb(255, 255, 255);
+  outline: 2px solid #0f01ff;
+  outline-offset: 3px;
   box-sizing: border-box;
 }
 
-.activeTool {
-  filter: invert(90%) sepia(80%) saturate(25008%) hue-rotate(102deg) brightness(900%) contrast(80%);
-  /* transform: translateY(-.5px); */
-}
-.tool:hover,.color:hover,.shapes:hover,button:hover,#canvasBackgroundColor:hover{
-  transform: translateY(-2px);
+.activeTool > img {
+  filter: invert(9%) sepia(100%) saturate(6195%) hue-rotate(249deg)
+    brightness(97%) contrast(138%);
 }
 
 #black {
@@ -116,187 +113,106 @@ canvas {
 #size_slider {
   transform: rotate(0.75turn);
   margin: 32px -36px;
-  padding: 0%;
   width: 98px;
   height: 54px;
 }
 
-
 #toolPalette1,
 #toolPalette2 {
-  background-color: #5A5A66;
-  width: 5vw;
-  border-bottom: 14px solid #5A5A66;
-  border-top: 10px solid #5A5A66;
-  border-left: 2px solid #5A5A66;
-  border-right: 2px solid #5A5A66;
   height: 100vh;
   box-sizing: border-box;
   border-radius: 25px;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 #toolPalette1 {
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-
-  align-items: center;
-  /* width: 5%; */
+  left: 5px;
 }
 
 #toolPalette2 {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  right: 5px;
 }
 
-#hall3{
-  margin-top: 220px;
+#hall3 {
+  width: 50px;
+  height: 50px;
 }
 
 #pens {
   margin-top: 0px;
 }
 
-#colors {
-  margin-top: 40px;
-  margin-bottom: 290px;
-}
-
-#toolPalette1 ul li {
-  margin: 8px 0px;
-}
-
 #shapes ul li {
   margin: 8px 0px;
 }
-
-#toolPalette2 ul {
-  margin: 10px 0px;
-  /* width: 80%; */
-}
-
 
 #otherTools li {
   margin: 4px 0px;
 }
 
-
 button {
+  box-sizing: border-box;
   padding: 5px 6px;
   border-radius: 5px;
-  background-color: rgb(53, 48, 48);
-  border: 2px solid rgb(0, 255, 64);
-  color: white
+  background-color: rgb(255, 255, 255);
+  border: 2px solid rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
 }
 
 button:hover {
   padding: 5px 6px;
   border-radius: 5px;
-  background-color: black;
-  border: 2px solid rgb(0, 255, 64);
-  color: rgb(0, 255, 64);
-}
-
-#canvasBackgroundColor {
-  margin: 10px 2px;
-  padding: 0%;
-  transform: scale(0.8);
-  height: 50px;
-  color: rgb(0, 255, 64);
-  background-color: rgb(0, 255, 64);
-  border-radius: 10%;
-}
-
-
-ul {
-  width: 50px;
-  display: flex;
-  justify-content: center;
-  background-color: #2A2B2E;
-  padding: 5px;
-  border-radius: 18px;
-  border: 2px solid rgb(0, 255, 64);
-  box-shadow: inset 0 -3em 4em rgb(66, 78, 70), 0 0 0 2px rgb(12, 81, 27), 0.3em 0.3em 0.8em rgb(44, 65, 36);
-}
-
-img {
-  filter: invert(100);
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
 #hall3logo {
-  /* position: absolute; */
-  border-radius: 30%;
-  /* top: -5%;
-  left: -2.85%; */
-  transform: scale(0.35);
   filter: invert(0);
-  border: 5px solid rgb(53, 48, 48);
   box-sizing: border-box;
+  width: 50px;
+  height: 50px;
 }
 
- .tooltiptext {
+.tooltiptext {
+  box-sizing: border-box;
   visibility: hidden;
   padding: 0.25em 0.5em;
   font-size: 15px;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: rgb(0, 255, 64);
+  background-color: rgba(255, 255, 255, 1);
+  color: rgb(0, 0, 0);
   text-align: center;
   border-radius: 0.25em;
   white-space: nowrap;
   padding-left: 10px;
   padding-right: 10px;
-
+  border: 0.5px solid black;
   position: absolute;
   z-index: 1;
-  /* top: 100%;
-  left: 100%; */
   transition-property: visibility;
   transition-delay: 0s;
 }
 .color .tooltiptext {
+  box-sizing: border-box;
   visibility: hidden;
   padding: 0.25em 0.5em;
   font-size: 15px;
   background-color: rgba(0, 0, 0, 0.8);
-  color: rgb(0, 255, 64);
   text-align: center;
   border-radius: 0.25em;
   white-space: nowrap;
-  padding-left: 10px;
-  padding-right: 10px;
-
-  position: absolute;
+  /* padding-left: 10px;
+  padding-right: 10px; */
+  /* position: absolute; */
   z-index: 1;
-  /* top: 100%;
-  left: 100%; */
-  /* transition-property: visibility;
-  transition-delay: 0s;
-} 
-
-.activeTool .tooltiptext,
-.activeColor .tooltiptext {
-  visibility: hidden;
-  padding: 0.25em 0.5em;
-  font-size: 15px;
-  background-color: white;
-  color: red;
-  text-align: center;
-  border-radius: 0.25em;
-  white-space: nowrap;
-  padding-left: 10px;
-  padding-right: 10px;
-
-  position: absolute;
-  z-index: 1;
-  /* top: 100%;
-  left: 100%; */
-  transition-property: visibility;
-  transition-delay: 0s;
 }
 
-#colors li .tooltiptext{
+#colors li .tooltiptext {
+  box-sizing: border-box;
   visibility: hidden;
   padding: 0.25em 0.5em;
   font-size: 15px;
@@ -309,8 +225,6 @@ img {
   padding-right: 10px;
   position: absolute;
   z-index: 1;
-  /* top: 100%;
-  left: 100%; */
   transition-property: visibility;
   transition-delay: 0s;
 }
@@ -321,36 +235,12 @@ img {
 .otherTools:hover .tooltiptext {
   visibility: visible;
   transition-delay: 0.3s;
-
 }
-
 
 .color,
 .tool,
 .clear-canvas,
 #size_slider,
 #canvasBackgroundColor:hover {
-  cursor: pointer;
-}
-
-.saveimg {
-  margin: 10px 0px;
-  font-size: 17px;
-  padding: 8px 10px;
-  border-radius: 16px;
-  border: 2px solid rgb(0, 255, 64);
-  /* box-shadow: inset 0 -3em 4em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(3, 3, 3), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3); */
-  box-shadow: inset 0 -3em 4em rgba(053, 48, 48, 0.1), 0 0 0 2px rgb(53, 48, 48), 0.3em 0.3em 1em rgba(053, 48, 48, 0.3);
-}
-
-.saveimg:hover {
-  margin: 10px 0px;
-  font-size: 17px;
-  padding: 8px 10px;
-  border-radius: 16px;
-  color: rgb(0, 255, 64);
-  border: 2px solid rgb(0, 255, 64);
-  /* box-shadow: inset 0 -3em 4em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(3, 3, 3), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3); */
-  box-shadow: inset 0 -3em 4em rgba(053, 48, 48, 0.1), 0 0 0 2px rgb(53, 48, 48), 0.3em 0.3em 1em rgba(053, 48, 48, 0.3);
   cursor: pointer;
 }
