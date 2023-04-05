@@ -201,15 +201,12 @@ function detectPolygon(points) {
   
 }
 
-var count1 = 0;
 function detectShape(points) {
   var result = null;
-  if (detectPolygon(points) != null && count1 < 2) {
+  if (detectPolygon(points) != null) {
     result = detectPolygon(points);
-    count1++;
-  } else if (detectCircle(points) != null && count1 < 2) {
+  } else if (detectCircle(points) != null) {
     result = detectCircle(points);
-    count1++;
   }
 
   return result;
@@ -727,16 +724,16 @@ window.addEventListener("mouseup", () => {
   if (selectedTool === "magicPen") {
     console.log(drawPoints);
     shapeResult = detectShape(drawPoints);
-    drawPoints.length = 0;
+    drawPoints = [];
     console.log(shapeResult, drawPoints);
 
     if (shapeResult != null) {
       if (shapeResult.type === "circle") {
         // context.strokeStyle = bgcolor.color;
         // for (var i = 0; i < drawPoints.length; i++) {
-        //   // context.lineTo(drawPoints[i].x, drawPoints[i].y);
-        //   // context.strokeStyle = selectedColor;
-        //   // context.stroke();
+        //   context.lineTo(drawPoints[i].x, drawPoints[i].y);
+        //   context.strokeStyle = backgroundColor;
+        //   context.stroke();
         //   // context.fillStyle = backgroundColor;
         //   // context.fillRect(shapeResult.center.x - 2*shapeResult.radius, shapeResult.center.y - 2*shapeResult.radius, 2*shapeResult.radius, 2*shapeResult.radius);
         //   //context.clearRect(shapeResult.center.x - 1.5*shapeResult.radius, shapeResult.center.y - 1.5*shapeResult.radius, 2.5*shapeResult.radius, 2.5*shapeResult.radius);
@@ -745,8 +742,9 @@ window.addEventListener("mouseup", () => {
 
         // setCanvasBackground();
 
-        // context.fillStyle = backgroundColor;
-        // context.fillRect(shapeResult.center.x - 3*shapeResult.radius, shapeResult.center.y - 3*shapeResult.radius, 3*shapeResult.radius, 3*shapeResult.radius);
+        context.fillStyle = backgroundColor;
+        console.log(context.fillStyle);
+        context.fillRect(shapeResult.center.x + shapeResult.radius, shapeResult.center.y + 2*shapeResult.radius, -3*shapeResult.radius, -3*shapeResult.radius);
         console.log(context.strokeStyle);
         context.beginPath();
         // console.log(shapeResult.center.x, shapeResult.radius, context.strokeStyle);
@@ -757,7 +755,7 @@ window.addEventListener("mouseup", () => {
           0,
           2 * Math.PI
         );
-        context.strokeStyle = selectedColor;
+        context.fillStyle = selectedColor;
         context.stroke();
         console.log(context.strokeStyle, selectedColor.color, backgroundColor);
         // fillColor.checked ? context.fill() : context.stroke();
@@ -768,19 +766,23 @@ window.addEventListener("mouseup", () => {
         //   context.lineTo(drawPoints[i].x, drawPoints[i].y);
         //   context.stroke();
         // }
-        context.strokeStyle = selectedColor;
+        
+        context.fillStyle = backgroundColor;
+        console.log(context.fillStyle);
+        context.fillRect(shapeResult.center.x + shapeResult.length, shapeResult.center.y + 2*shapeResult.length, -3*shapeResult.length, -3*shapeResult.length);
         console.log(shapeResult.center.x, shapeResult.length);
         if (!fillColor.checked) {
           return context.strokeRect(
-            shapeResult.center.x,
-            shapeResult.center.y,
+            shapeResult.center.x-0.5*shapeResult.length,
+            shapeResult.center.y-0.5*shapeResult.length,
             shapeResult.length,
             shapeResult.length
           );
         }
+        // context.fillStyle = fillColor;
         context.fillRect(
-          shapeResult.center.x,
-          shapeResult.center.y,
+          shapeResult.center.x-0.5*shapeResult.length,
+          shapeResult.center.y-0.5*shapeResult.length,
           shapeResult.length,
           shapeResult.length
         );
