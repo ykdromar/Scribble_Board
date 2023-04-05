@@ -21,13 +21,26 @@ function detectCircle(points) {
     var center = { x: centerX, y: centerY };
 
     // radius (average distance to center)
-    var sumDistances = 0;
+    // var sumDistances = 0;
+    var Distance = [];
+
     for (var i = 0; i < points.length; i++) {
-        var distance = Math.sqrt(
+        Distance[i] = Math.sqrt(
             Math.pow(points[i].x - center.x, 2) + Math.pow(points[i].y - center.y, 2)
         );
-        sumDistances += distance;
     }
+
+    for(var i=0; i<points.length; i++) {
+        for(var j=0; j<points.length; j++) {
+           if( Distance[i] - Distance[j]) 
+        }
+    }
+    // for (var i = 0; i < points.length; i++) {
+    //     var distance = Math.sqrt(
+    //         Math.pow(points[i].x - center.x, 2) + Math.pow(points[i].y - center.y, 2)
+    //     );
+    //     sumDistances += distance;
+    // }
     var radius = sumDistances / points.length;
 
     // Check if the points form a circle by looking at the signs of the derivatives
