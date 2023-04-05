@@ -8,7 +8,8 @@ const canvas = document.querySelector("canvas"),
   sizeSlider = document.querySelector("#size_slider"),
   context = canvas.getContext("2d"),
   pencil = document.querySelector("#pencil"),
-  selectionTool = document.querySelector("#selection");
+  selectionTool = document.querySelector("#selection"),
+  saveImg = document.querySelector("#saveImg");
 var drawPoints = [];
 
 //start auto complete
@@ -220,6 +221,14 @@ selection;
 const setCanvasBackground = () => {
   context.fillStyle = backgroundColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
+  if (localStorage.getItem("canvas")) {
+    var dataURL = localStorage.getItem("canvas");
+    var img = new Image();
+    img.src = dataURL;
+    img.onload = function () {
+      context.drawImage(img, 0, 0);
+    };
+  }
   context.fillStyle = selectedColor.color;
 };
 
@@ -673,7 +682,15 @@ colorPicker.addEventListener("change", () => {
 
 clearCanvas.addEventListener("click", () => {
   context.clearRect(0, 0, canvas.width, canvas.height);
+  localStorage.removeItem("canvas");
   setCanvasBackground();
+});
+
+saveImg.addEventListener("click", () => {
+  const link = document.createElement("a");
+  link.download = `${Date.now()}.jpg`;
+  link.href = canvas.toDataURL();
+  link.click();
 });
 
 canvasBackgroundColor.addEventListener("input", () => {
@@ -686,6 +703,7 @@ sizeSlider.addEventListener("change", () => (pencilWidth = sizeSlider.value));
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
 window.addEventListener("mouseup", () => {
+  localStorage.setItem("canvas", canvas.toDataURL());
   isDrawing = false;
   if (selectedTool === "selection") {
     if (isDragging) {
