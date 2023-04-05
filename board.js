@@ -524,20 +524,15 @@ const drawing = (e) => {
     context.globalAlpha = selectedTool === "highlighter" ? 0.6 : 1;
 
     if (selectedTool === "pencil") {
-      document.getElementById("canvas").style.cursor =
-        "url('assets/cursors/pencil.png'), auto";
+      document.getElementById("canvas").style.cursor = "crosshair";
     } else if (selectedTool === "highlighter") {
-      document.getElementById("canvas").style.cursor =
-        "url('assets/cursors/highlighter.png'), auto";
+      document.getElementById("canvas").style.cursor = "crosshair";
     } else if (selectedTool === "eraser") {
-      document.getElementById("canvas").style.cursor =
-        "url('assets/cursors/eraser.png'), auto";
+      document.getElementById("canvas").style.cursor = "crosshair";
     } else if (selectedTool === "texture") {
-      document.getElementById("canvas").style.cursor =
-        "url('assets/images/crayon.svg'), auto";
+      document.getElementById("canvas").style.cursor = "crosshair";
     } else if (selectedTool === "gradient") {
-      document.getElementById("canvas").style.cursor =
-        "url('assets/cursors/brush.png'), auto";
+      document.getElementById("canvas").style.cursor = "crosshair";
     }
 
     context.lineTo(e.offsetX, e.offsetY);
@@ -552,13 +547,13 @@ const drawing = (e) => {
     document.getElementById("canvas").style.cursor = "crosshair";
     drawLine(e);
   } else if (selectedTool === "paint-bucket") {
-    document.getElementById("canvas").style.cursor =
-      "url('assets/cursors/paint-bucket.png'), auto";
+    document.getElementById("canvas").style.cursor = "crosshair";
     actionFill(prevMouseX, prevMouseY, selectedColor);
   } else if (selectedTool === "triangle") {
     document.getElementById("canvas").style.cursor = "crosshair";
     drawTriangle(e);
   } else if (selectedTool === "magicPen") {
+    document.getElementById("canvas").style.cursor = "crosshair";
     context.strokeStyle =
       selectedTool === "eraser" ? canvasBackgroundColor.value : selectedColor;
     context.lineWidth = selectedTool === "highlighter" ? 25 : pencilWidth;
