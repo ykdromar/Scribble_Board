@@ -12,10 +12,11 @@
   <div id="toolPalette1">
     <span id="hall3"><img id="hall3logo" src="./assets/images/Hall3_logo.png"></span>
     <ul id="pens" class="list">
+
       <li class="tool activeTool" id="pencil">
         <img src="assets/images/pencil.svg" />
         <span class="tooltiptext">Pencil</span>
-      </li>
+    </li>
       <li class="tool" id="highlighter">
         <img src="assets/images/highlighter.svg" />
         <span class="tooltiptext">Highlighter</span>
@@ -37,70 +38,71 @@
         <span class="tooltiptext">Autocorrect</span>
       </li>
     </ul>
-    <ul id="colors" class="list">
-      <li id="black" class="color activeColor"></li>
-      <li id="blue" class="color"></li>
-      <li id="red" class="color"></li>
-      <li id="green" class="color"></li>
-
-      <li id="customColor" class="color">
-        <input type="color" id="colorPicker" class="color" value="#FCFF00"></input>
-        <span class="tooltiptext">Custom Color</span>
+   
+    <ul id="shapes" class="list">
+      <li class="tool " id="rectangle">
+        <img src="assets/images/rectangle.svg" />
+        <span class="tooltiptext">rectangle</span>
       </li>
-      <li class="color">
-        <input type="checkbox" id="fillColor" checked="true" width="20px" height="20px"></input>
-        <span class="tooltiptext">Fill Color in Shapes</span>
+      <li class="tool" id="circle">
+        <img src="assets/images/circle.svg" />
+        <span class="tooltiptext">Circle</span>
+      </li>
+      <li class="tool" id="line">
+        <img src="assets/images/line.svg" />
+        <span class="tooltiptext">Line</span>
+      <li class="tool" id="triangle">
+        <img src="assets/images/triangle.svg" />
+        <span class="tooltiptext">Traingle</span>
       </li>
     </ul>
+
+
   </div>
   <div id="board">
     <canvas id="canvas"></canvas>
   </div>
   <div id="toolPalette2">
     <button id="saveImg" >Download</button>
-    <div>
-      <ul id="shapes" class="list">
-        <li class="tool " id="rectangle">
-          <span class="tooltiptext">rectangle</span>
-          <img src="assets/images/rectangle.svg" />
-        </li>
-        <li class="tool" id="circle">
-          <span class="tooltiptext">Circle</span>
-          <img src="assets/images/circle.svg" />
-        </li>
-        <li class="tool" id="line">
-          <span class="tooltiptext">Line</span>
-          <img src="assets/images/line.svg" />
-        <li class="tool" id="triangle">
-          <span class="tooltiptext">Traingle</span>
-          <img src="assets/images/triangle.svg" />
-        </li>
-      </ul>
-    </div>
-    <div>
+    
+    
       <ul id="otherTools" class="list">
         <li class="tool" id="selection">
-          <span class="tooltiptext">Cut N Move</span>
+          <!-- <span class="tooltiptext">Cut N Move</span> -->
           <img src="assets/images/selectionTool.svg" />
         </li>
         <li class="tool" id="paint-bucket">
-          <span class="tooltiptext">Fill Color</span>
+          <!-- <span class="tooltiptext">Fill Color</span> -->
           <img src="assets/images/paint-bucket.svg" />
         </li>
         <li>
           <input type="range" id="size_slider" min="1" max="50" value="5">
-          <span class="tooltiptext">Pen Width</span>
         </li>
         <li id="clearCanvas">
           <button class="clear-canvas">Clear</button>
-          <span class="tooltiptext">Clear Canvas</span>
         </li>
         <li>
           <input id="canvasBackgroundColor" type="color" value="#ffffff">
-          <span class="tooltiptext">Background Color</span>
         </li>
       </ul>
-    </div>
+
+
+      <ul id="colors" class="list">
+        <li id="black" class="color activeColor"></li>
+        <li id="blue" class="color"></li>
+        <li id="red" class="color"></li>
+        <li id="green" class="color"></li>
+  
+        <li id="customColor" class="color">
+          <input type="color" id="colorPicker" class="color" value="#FCFF00"></input>
+          <span class="tooltiptext">Custom Color</span>
+        </li>
+        <li class="">
+          <input type="checkbox" id="fillColor" width="20px" height="20px"></input>
+          <span class="tooltiptext">Fill Color in Shapes</span>
+        </li>
+      </ul>
+    
   </div>
   <script src="./board.js"></script>
 </body>
