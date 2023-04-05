@@ -13,8 +13,8 @@ const canvas = document.querySelector("canvas"),
 var drawPoints = [];
 
 //start auto complete
-function getTanFromDegrees(degrees) {
-  return Math.tan((degrees * Math.PI) / 180);
+function getTanToDegrees(derivative) {
+	return Math.atan(derivative)*180/Math.PI;
 }
 
 function detectCircle(points) {
@@ -87,27 +87,43 @@ function detectCircle(points) {
 
 function detectPolygon(points) {
   let count = 0;
+  smooth = [];
+  var prevDer =0;
+  var avgX =0
+  var avgY =0
+  smooth.push(points[0])
+  smooth.push(points[1])
+  smooth.push(points[2])
+  smooth.push(points[3])
+  for( var i = 4; i< points.length - 4; i++){
+    avgX = points[i].x + points[i-1].x + points[i-2].x + points[i-3].x + points[i+1].x + points[i+2].x + points[i+3].x;
+    avgY = points[i].x + points[i-1].x + points[i-2].x + points[i-3].x + points[i+1].x + points[i+2].x + points[i+3].x;
+    smooth.push({x: avgX, y: avgY});
+  }
+  smooth.push(points[points.length - 3])
+  smooth.push(points[points.length - 2])
+  smooth.push(points[points.length - 1])
   var derivatives = [];
   var edgesIndex = [];
-  for (var i = 1; i < points.length; i++) {
-    var dx = points[i].x - points[i - 1].x;
-    var dy = points[i].y - points[i - 1].y;
+  for (var i = 5; i < smooth.length; i++) {
+    var dx = points[i].x - points[i - 5].x;
+    var dy = points[i].y - points[i - 5].y;
     // var dr = Math.sqrt(dx * dx + dy * dy);
     var derivative = dy / dx;
     if (i > 2) {
       if (
-        derivative > derivatives[i - 1] + getTanFromDegrees(30) ||
-        derivative < derivatives[i - 1] - getTanFromDegrees(30)
+        Math.abs(derivative - prevDer) > 80
       ) {
         count++;
         edgesIndex.push(i);
       }
     }
     derivatives.push(derivative);
+    prevDer = derivative;
   }
   edgesIndex.push(0);
 
-  if (count <= 2) {
+  if (count <= 3) {
     if (points.length % 2 == 0) {
       var centerX = (points[0].x + points[points.length / 2].x) / 2;
       var centerY = (points[0].y + points[points.length / 2].y) / 2;
@@ -156,34 +172,33 @@ function detectPolygon(points) {
       length: 4 * squareLength,
       count: count,
     };
-  } else if (count >= 3) {
-    var centerX = 0;
-    var centerY = 0;
-    for (var i = 0; i < points.length; i++) {
-      centerX += points[i].x;
-      centerY += points[i].y;
-    }
-    centerX /= points.length;
-    centerY /= points.length;
-    var squareC = { x: centerX, y: centerY };
-    var sumDistances = 0;
-    for (var i = 0; i < edgesIndex.length - 1; i++) {
-      var distance = Math.sqrt(
-        Math.pow(points[edgesIndex[i]].x - points[edgesIndex[i + 1]].x, 2) +
-          Math.pow(points[edgesIndex[i]].y - points[edgesIndex[i + 1]].y, 2)
-      );
-      sumDistances += distance;
-    }
-    var squareLength = sumDistances / edgesIndex.length;
-    return {
-      type: "triangle",
-      center: squareC,
-      length: squareLength,
-      count: count,
-    };
-  } else {
-    return null;
   }
+  // } else if (count >= 3) {
+  //   var centerX = 0;
+  //   var centerY = 0;
+  //   for (var i = 0; i < points.length; i++) {
+  //     centerX += points[i].x;
+  //     centerY += points[i].y;
+  //   }
+  //   centerX /= points.length;
+  //   centerY /= points.length;
+  //   var squareC = { x: centerX, y: centerY };
+  //   var sumDistances = 0;
+  //   for (var i = 0; i < edgesIndex.length - 1; i++) {
+  //     var distance = Math.sqrt(
+  //       Math.pow(points[edgesIndex[i]].x - points[edgesIndex[i + 1]].x, 2) +
+  //         Math.pow(points[edgesIndex[i]].y - points[edgesIndex[i + 1]].y, 2)
+  //     );
+  //     sumDistances += distance;
+  //   }
+  //   var squareLength = sumDistances / edgesIndex.length;
+  //   return {
+  //     type: "triangle",
+  //     center: squareC,
+  //     length: squareLength,
+  //     count: count,
+  //   };
+  
 }
 
 var count1 = 0;
@@ -733,7 +748,7 @@ window.addEventListener("mouseup", () => {
         //   //setCanvasBackground();
         // }
 
-        setCanvasBackground();
+        // setCanvasBackground();
 
         // context.fillStyle = backgroundColor;
         // context.fillRect(shapeResult.center.x - 3*shapeResult.radius, shapeResult.center.y - 3*shapeResult.radius, 3*shapeResult.radius, 3*shapeResult.radius);
@@ -752,12 +767,12 @@ window.addEventListener("mouseup", () => {
         console.log(context.strokeStyle, selectedColor.color, backgroundColor);
         // fillColor.checked ? context.fill() : context.stroke();
       } else if (shapeResult.type === "square") {
-        context.strokeStyle = bgcolor.color;
-        console.log(selectedColor);
-        for (var i = 0; i < drawPoints.length; i++) {
-          context.lineTo(drawPoints[i].x, drawPoints[i].y);
-          context.stroke();
-        }
+        // context.strokeStyle = bgcolor.color;
+        // console.log(selectedColor);
+        // for (var i = 0; i < drawPoints.length; i++) {
+        //   context.lineTo(drawPoints[i].x, drawPoints[i].y);
+        //   context.stroke();
+        // }
         context.strokeStyle = selectedColor;
         console.log(shapeResult.center.x, shapeResult.length);
         if (!fillColor.checked) {
