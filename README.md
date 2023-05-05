@@ -15,9 +15,3 @@ Link - <a href="https://ykdromar.me/Scribble_Board/">https://ykdromar.me/Scribbl
 4. Yuval Bansal (221232)
 5. Vishal Kumar (221202)
 6. Priyanshu Maurya (220827)
-
-Contributed to this submission along with the Team 1.
-
-
-
-
